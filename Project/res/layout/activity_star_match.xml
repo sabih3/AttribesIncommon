@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    
+    <TextView 
+        android:id="@+id/starMatch_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="You have a star match!"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        />
+    
+    <com.mikhaellopez.circularimageview.CircularImageView
+       android:id="@+id/starMatch_image"
+       android:layout_width="130dp"
+       android:layout_height="130dp"
+       android:layout_marginTop="20dp"
+       android:layout_below="@id/starMatch_heading"
+       android:layout_centerHorizontal="true"
+       android:scaleType="centerCrop"
+       app:border="true"
+       
+       app:border_color="#FB9407">
+    </com.mikhaellopez.circularimageview.CircularImageView>
+       
+     <TextView 
+         android:id="@+id/starMatch_viewProfile"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="20dp"
+         android:layout_below="@id/starMatch_image"
+         android:layout_centerHorizontal="true"
+         android:text="View profile"
+         android:textSize="15sp"
+         />
+        
+    <TextView 
+        android:id="@+id/starMatch_interestMatched"
+        android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/starMatch_viewProfile"
+		android:layout_marginTop="80dp"
+		android:text="Interest matched:"
+		android:textSize="15sp"
+        />
+
+    <com.attribes.incommon.views.InterestLayout
+       android:id="@+id/starMatch_matchedInterestList"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_below="@+id/starMatch_interestMatched"
+       android:layout_marginTop="20dp"
+       
+       />
+</RelativeLayout>

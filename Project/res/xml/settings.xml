@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+  
+    <PreferenceCategory 
+        android:title="Show">
+       
+		<CheckBoxPreference 
+		    android:key="men"
+		    android:title="Men"
+		    />
+		<CheckBoxPreference 
+		    android:key="women"
+		    android:title="Women"
+		    />
+		
+	</PreferenceCategory>
+	
+	<PreferenceCategory >
+	    <CheckBoxPreference 
+	        android:key="alerts"
+	        android:title="Alerts"
+	        />
+	    
+	    <CheckBoxPreference 
+	        android:key="matches"
+	        android:title="New Matches"/>
+	    
+	    <CheckBoxPreference 
+	        android:key="message"
+	        android:title="Messgaes"
+	        />
+	</PreferenceCategory>
+</PreferenceScreen>

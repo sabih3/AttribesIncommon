@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+	<ImageView
+	    android:id="@+id/albumChooserScreen_image"
+	    android:layout_width="match_parent"
+	    android:layout_height="350dp"
+	    android:scaleType="centerCrop"
+	    android:src="@drawable/placeholder"
+	     
+	     />
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:gravity="center_vertical|center_horizontal"
+	    android:layout_margin="10dp">
+	    
+	<Button 
+	    android:id="@+id/albumChooserScreen_cancelButton"
+	    android:layout_width="100dp"
+	    android:layout_height="60dp"
+	    android:layout_gravity="left"
+	    android:layout_marginRight="10dp"
+	    android:text="@string/button_cancel_album_image"
+	    android:background="@drawable/rounded_corners_orange"
+		android:textColor="@color/list_background"   
+		    />
+	
+	<Button 
+	    android:id="@+id/albumChooserScreen_chooseButton"
+	    android:layout_width="100dp"
+	    android:layout_height="60dp"
+	    android:layout_gravity="right"
+	    android:text="@string/button_choose_album_image"
+	    android:background="@drawable/rounded_corners_orange"
+	    android:textColor="@color/list_background"
+	    />
+	
+	
+	</LinearLayout>
+</LinearLayout>

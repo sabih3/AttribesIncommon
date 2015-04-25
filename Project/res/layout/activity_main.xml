@@ -1,0 +1,79 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFA205"
+    android:weightSum="9"
+    android:orientation="vertical"
+    tools:context="com.attribes.incommon.MainActivity" >
+
+    <!--
+         <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+    -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2.6" />
+
+    <ImageView
+        android:id="@+id/main_icon"
+        android:layout_width="70dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal|top"
+        android:src="@drawable/logo_incommon_114" />
+
+    <TextView
+        android:id="@+id/main_title"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:gravity="center_horizontal"
+        android:text="@string/main_app_name"
+        android:textColor="#FFFFFF"
+        android:layout_weight="3"
+        android:textSize="44sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/main_fbConnectTextView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#FB8B02"
+        android:layout_weight="0.8"
+        android:gravity="center_horizontal|center_vertical"
+        android:onClick="onLoginClick"
+        android:text="@string/main_fbConnect"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/main_googleConnectTextView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#FE9603"
+        android:gravity="center_horizontal|center_vertical"
+        android:onClick="googleSignIn"
+        android:layout_weight="0.8"
+        android:text="@string/main_googleConnect"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/main_takeATourTextView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:onClick="startTour"
+        android:layout_weight="0.8"
+        android:text="@string/main_takeTour"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
+
+</LinearLayout>
+<!-- </ScrollView> -->

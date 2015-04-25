@@ -1,0 +1,12 @@
+bin
+gen
+.DS_Store
+*.class
+*.sh
+.settings/
+.classpath
+build/
+
+*.orig
+
+.gradle/

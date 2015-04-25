@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:id="@+id/drawerItemParentView"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+   >
+   
+    <com.mikhaellopez.circularimageview.CircularImageView
+       android:id="@+id/drawerItem_image"
+       android:layout_width="50dp"
+       android:layout_height="50dp"
+       android:layout_marginLeft="15dp"
+       android:layout_alignParentLeft="true"
+       android:layout_centerVertical="true"
+       android:scaleType="centerCrop"
+       android:src="@drawable/placeholder"
+       app:border="false"
+       android:visibility="gone">
+    </com.mikhaellopez.circularimageview.CircularImageView>
+ 
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_toRightOf="@id/drawerItem_image"
+        android:layout_marginLeft="15dp"
+        android:textSize="20dp"
+        android:textColor="@color/color_drawer_title"
+        android:gravity="center_vertical"
+        
+        />
+    
+    <ImageView 
+        android:id="@+id/drawerItem_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="8dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_action_next_item_dark_theme"
+        android:visibility="gone"/>
+        
+    <TextView 
+        android:id="@+id/drawerItem_counter"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dp"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
+        android:text="1"
+        android:background="@drawable/drawer_counter"
+        android:visibility="gone"/>
+  		
+</RelativeLayout>

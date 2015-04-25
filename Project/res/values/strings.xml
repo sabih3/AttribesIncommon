@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">InCommon</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_splash_screen">InCommon</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="main_app_name">InCommon</string>
+    <string name="main_fbConnect">Connect with Facebook</string>
+    <string name="main_googleConnect">Connect with Google+</string>
+    <string name="main_takeTour">Take a tour</string>
+    <string name="facebook_app_id">882642135109835</string>
+    <string name="app_id">882642135109835</string>
+    <string name="title_activity_welcome">Welcome</string>
+    <string name="welcome_greeting">Welcome to InCommon</string>
+    <string name="welcome_text">Set up your profile and get ready to connect with others!</string>
+    <string name="welcome_create_profile">Create profile</string>
+    <string name="tour_skip">Skip</string>
+    <string name="tour_one_choose_interest">Choose your interests</string>
+    <string name="tour_one_pick_interest">Pick the favourite interests you are\n passionate about and discover\n something new!</string>
+    <string name="tour_two_title">Shake \'n\' connect</string>
+    <string name="tour_two_description">Simply shake your phone to search\n for new friends</string>
+    <string name="tour_three_title">"Start interest groups"</string>
+    <string name="tour_three_description">Invite friends to be a part of your groups</string>
+    <string name="tour_four_title">Let\'s get started!</string>
+    <string name="title_activity_create_profile_screen">Create profile</string>
+    <string name="createProfile_chooseInterest">Choose interests</string>
+    <string name="createProfile_descriptionHint">Type description...</string>
+    <string name="title_activity_select_interest_screen">Select interests</string>
+    <string name="title_activity_complete_profile_screen">Create profile</string>
+    <string name="action_edit">Edit</string>
+    <string name="title_activity_base">BaseActivity</string>
+    <string name="app_label">InCommon</string>
+    <string name="search_hint">Search</string>
+    <string name="createProfile_maxCharacters">430 charatcters</string>
+    <string name="interest_not_found">The searched interest has not been found. Submit an interest to be added.</string>
+    <string name="submit_interest">Submit Interest</string>
+    <string name="title_activity_search_friends">Search</string>
+    <string name="completeProfile_interests">Interests</string>
+    <string name="title_activity_connect_screen">Connect</string>
+    <string name="title_activity_match_profile">Search Profile</string>
+    <string name="title_activity_match_profile_push">Match Profile</string>
+    <string name="toast_crash">Error report has been sent to server</string> 
+    <string name="title_activity_profile_album_list_screen">Albums</string>
+	<string name="button_choose_album_image">Choose</string>
+	<string name="button_cancel_album_image">Cancel</string>
+	<string name="drawer_open">drawer open</string>
+	<string name="drawer_close">drawer close</string>
+	<string name="activity_activity_screen">Activity</string>
+	<string name="activity_friend_screen">Friends</string>
+	<string name="activity_dob_screen">DOB Confirmation</string>
+	<string name="privacyPolicy_heading">Privacy Policy</string>
+	<string name="privacyPolicy_updateText">Last updated Oct 5th, 2014</string>
+	<string name="termsOfService_heading">Terms of Service</string>
+	<string name="termsOfService_updateText">Last updated on 5th, 2014</string>
+	<string name="share_screen_label">Share</string>
+	<string name="share_screen_description">Tell your friends about InCommon</string>
+	<string name="match_profile_isOnline">is Online</string>
+	<string name="match_profile_chat">chat</string>
+	<string name="match_profile_like">like</string>
+	<string name="match_profile_add">add</string>
+	<string name="match_profile_info">info</string>
+	<string name="demo_min_label">"  "</string>
+    <string name="demo_max_label">"  "</string>
+    <string name="GPSAlertDialogTitle">Switch on location</string>
+    <string name="GPSAlertDialogMessage">Oops! We were unable to get your location, please switch on all the available location providers in your phone</string>
+	<string name="Button_YES">Yes</string>
+	<string name="Button_NO">No</string>
+	<string name="connectText">Start making new friends by searching for favourite interests.</string>
+	<string name= "privacyPolicy">Last updated 29th January 2014\n
+
+\nInCommon Ltd respects the Privacy of its users and has developed this privacy policy to demonstrate its commitment to protecting your privacy.  This Privacy Policy describes the information we collect, how that information may be used.  We encourage you to read this Privacy Policy carefully when using our application. By using our application you are accepting the practices described in this privacy policy.\n
+
+\nWe may collect information that can identify you such as your name and age. We may collect this information through a mobile application. By using the service, you are authorising us to gather, parse and retain data related to the provision of the Service.\n
+
+\nIn order to register as a user with InCommon you will be asked to sign in using your Facebook or Google login. If you do so, you authorise us to access certain Facebook or Google account information, such as your public  profile, birthday and photo albums. You will also be asked to allow InCommon to collect your location information from your device when you download or use the service. You may also provide us photos, a personal description and information about your gender and preferences for recommendations, such as search distance, age range and gender. If you chat with other InCommon users, you provide us the content of your chats, and if you contact us with a customer service or other inquiry you provide us with the content of that communication.\n
+
+\nWe take security measure to help safeguard your personal information from unauthorised access and disclosure.\n 
+
+\nWe never give your details to third parties to use your data to enable them to provide you with information regarding unrelated goods or services..\n
+
+\nWe do update this Policy from time to time so please do review this Policy regularly.\n
+
+	    
+	</string>
+	<string name="terms">
+Last updated 29th January 2014\n
+
+\nWelcome to InCommon, operated by InCommon Ltd.\n
+
+\nBy accessing the InCommon application or its website found at www.getincommon.com, whether through a mobile device, mobile application or computer you agree to be bound by these terms of Service, whether you caret a InCommon account. If you wish to create a InCommon account and make use of the service, please read these Terms of Service.\n
+
+\nThis agreement is an electric contract the establishes the legally binding terms you must accept to use the service.\n
+
+\nBy accessing or using the service you accept this agreement and agree to the terms, conditions and notices contained or referenced herein and consent to have this agreement and all notices provided to you in electronic form.\n
+
+\nNo part of InCommon is directed to persons under the age of 13. You must be at least 13 years of age to access and use the service . any use of the service is void where prohibited.\n
+
+\nIn order to use InCommon you must sign in using your Facebook or Google login. If you do so, you authorise us to access and use certain account information needed to creating your profile such as Name and age.\n
+
+\nThe Company may terminate or suspend your account any time without notice if the Company believes the you have breached this agreement or for any other reason, with or without cause, in its sole discretion. The Company is not required to disclose, and may be prohibited by law from disclosing, the reason for the termination or suspension of your account.\n
+
+\nUsers of the service may not use any information obtained from service to contact, advertise to, solicit, or sell to any other user without his or her prior explicit consent.\n
+
+\nOrganisation, companies and  businesses may not use the Service or the service for any purpose. The Company may investigate and take any available legal action in response to illegal and unauthorised uses of the served, including collecting username, photos by electronic or other means.\n
+
+\nYou are solely responsible for your interactions with other users. You understand that the company currently does not conduct criminal background checks on its users. the Company does not inquire into the background of all of its users.\n
+
+\nThe Company owns and retains all proprietary rights in the service and in all content, trademarks, trade names, service marks and other intellectual property rights related thereto. The service contains the copyrighted material, trademarks and other proprietary information of the company and its licensors.\n
+
+\nYou understand and agree that the company may, but is not obligated to, monitor ro review any content you post as part of a service. the company may delete any content, in whole or in part that in the sole judgement of the company violated this agreement or may harm the reputation of the service or the company.\n
+
+\nThis agreement will be updated from time to time.</string>
+	
+<string name="create_group">Create</string>
+<string-array name="nav_drawer_items">
+    	<item >header</item>
+        <item >Friends</item>
+        <item >Activity</item>
+        <!-- <item >Groups</item> -->
+        <item >Search by Interest</item>
+        <item >Preferences</item>
+        <item >Privacy Policy</item>
+        <item >Terms of Service</item>
+        <item >Contact Us</item> 
+        <item >Share</item>
+        <item>Logout</item>
+
+    </string-array>
+
+</resources>

@@ -1,0 +1,24 @@
+<resources>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="divider">#DEDEDE</color>
+    <color name="orange">#F07537</color>
+    <color name="sunshade">#FF9849</color>
+    <color name="light_orange">#FE9637</color>
+    <color name="actionBar">#030303</color>
+    <color name="neon_carrot">#FF9538</color>
+    <color name="burnt_orange">#F66F2D</color>
+    <color name="list_item_title">#000000</color>
+    <color name="list_background">#FFFFFF</color>
+    <color name="list_background_pressed">#00D4FF</color>
+    <color name="friend_request_new">#FB6506</color>
+    <color name="white">#FFFFFF</color>
+    <color name="color_drawer_title">#333333</color>
+    <color name="color_drawer_rows">#f5f5f5</color>
+    <color name="chat_message_time">#888888</color>
+    <color name="black_font">#333333</color>	
+    <color name="gray_font">#999999</color>
+    <color name="online_user">#FF8B48</color>
+    <color name="tabTextColor">#505050</color>
+    <color name="tabBackgroundColor">#eeeeee</color>
+</resources>

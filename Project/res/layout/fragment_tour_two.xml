@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    >
+    
+    <TextView
+        android:id="@+id/tour_skip" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="10dp"
+        android:text="@string/tour_skip"
+        android:textColor="#FFA205"
+        android:padding="20dp"/>
+    
+    <ImageView 
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="70dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/icon_shake_connect"/>
+    
+    <TextView
+        android:id="@+id/tourTwo_title" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/tour_two_title"
+        android:textSize="22sp"
+        android:textColor="@color/black_font"/>
+    
+    <TextView 
+        android:id="@+id/tourTwo_desc"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:text="@string/tour_two_description"
+       	android:textColor="@color/gray_font"
+        />
+    
+
+</LinearLayout>

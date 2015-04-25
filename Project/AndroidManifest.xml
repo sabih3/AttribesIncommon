@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.attribes.incommon"
+    android:versionCode="18"
+    android:versionName="1.7.0" >
+
+    <uses-sdk
+        android:minSdkVersion="16"
+        android:targetSdkVersion="21" />
+	<uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+	<uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="com.attribes.incommon.permission.C2D_MESSAGE"/>
+	<uses-permission android:name="android.permission.GET_TASKS" />
+    <permission android:name="com.attribes.incommon.permission.C2D_MESSAGE"
+        		android:protectionLevel="signature" />
+    <application
+        android:name=".AppController"
+        android:allowBackup="true"
+        android:icon="@drawable/launcher_incommon"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" 
+        android:largeHeap="true">
+        
+       
+        <meta-data android:name="com.google.android.gms.version"
+        			android:value="@integer/google_play_services_version" />
+        
+        <receiver
+            android:name=".GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+               
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                 
+                <category android:name="com.attribes.incommon" />
+            </intent-filter>
+        
+        </receiver>
+        <service android:name=".GcmIntentService" />
+        <service android:name=".BackgroundService" />
+        
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".SplashScreen"
+            android:label="@string/title_activity_splash_screen" 
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".taketour.TakeATourFragmentZero"
+            android:label="@string/app_name" 
+            
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.facebook.LoginActivity"
+            android:launchMode="standard"
+            
+            
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_id" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".WelcomeScreen"
+            
+            android:label="@string/title_activity_welcome" 
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".CreateProfileScreen"
+            
+            android:label="@string/title_activity_create_profile_screen"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:screenOrientation="portrait"> 
+            
+        </activity>
+        <activity
+            android:name=".SelectInterestScreen"
+            
+            android:label="@string/title_activity_select_interest_screen" 
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity
+            android:name=".CompleteProfileScreen"
+            
+            android:label="@string/title_activity_complete_profile_screen" 
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".BaseActivity"
+            
+            android:label="@string/title_activity_base" 
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".SearchFriends"
+            
+            android:label="@string/title_activity_search_friends"
+            android:parentActivityName=".ConnectScreen"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable"
+                android:value="com.app.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ConnectScreen"
+            android:label="@string/title_activity_connect_screen" 
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".MatchProfile"
+            
+            android:label="@string/title_activity_match_profile" 
+            android:screenOrientation="portrait">
+        </activity>
+        
+        <activity
+            android:name=".MatchProfilePush"
+            
+            android:label="@string/title_activity_match_profile_push" 
+            android:screenOrientation="portrait"
+            android:exported="true">
+        </activity>
+        
+        <activity
+            android:name=".ProfileAlbumListScreen"
+            
+            android:label="@string/title_activity_profile_album_list_screen" 
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        
+        <activity
+            android:name=".AlbumPhotosGridScreen"
+            
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        
+        <activity
+            android:name=".AlbumImageChooserScreen"
+            android:screenOrientation="portrait"
+           
+            >
+        </activity>
+        
+        <activity 
+            android:name=".ActivityScreen"
+            android:label="@string/activity_activity_screen"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.PageIndicatorDefaults"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="com.jakewharton.android.viewpagerindicator.sample.SAMPLE" />
+            </intent-filter>
+        </activity>
+        
+        <activity 
+            android:name=".FriendScreen"
+            
+            android:label="@string/activity_friend_screen"
+            android:parentActivityName=".SearchFriends"
+            android:screenOrientation="portrait">
+        
+        	<intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable"
+                android:value="com.app.MainActivity" />
+        </activity>
+        
+        <activity 
+            android:name=".DateOfBirthScreen"
+            android:label="@string/activity_dob_screen"
+            
+            android:screenOrientation="portrait">
+        </activity>
+        
+        <activity 
+            android:name=".ChatScreen"
+            android:screenOrientation="portrait"
+            
+            android:exported="true">
+        </activity>
+        
+        <activity 
+            android:name=".PrivacyPolicyScreen"
+            android:label="@string/privacyPolicy_heading"
+            android:parentActivityName=".SearchFriends"
+            
+            android:screenOrientation="portrait">
+        </activity>
+        
+        <activity 
+            android:name=".TermsOfServiceScreen"
+            android:label="@string/termsOfService_heading"
+            android:parentActivityName=".SearchFriends"
+            
+            android:screenOrientation="portrait">
+        </activity>
+        
+        <activity
+            android:name=".StarMatchScreen"
+            android:screenOrientation="portrait"
+            
+            android:theme="@style/Theme.Base.AppCompat.Dialog.FixedSize">
+            
+        </activity>
+        
+        <activity
+            android:name=".ShareScreen"
+            android:label="@string/share_screen_label"
+            android:launchMode="singleTop"
+            android:parentActivityName=".SearchFriends"
+            android:screenOrientation="portrait">            
+        </activity>
+        
+        <activity 
+            android:name=".SettingActivity"
+            android:label="Preferences"
+            android:screenOrientation="portrait">
+            
+        </activity>
+        
+        <activity 
+            android:name=".groups.GroupMainScreen"
+            android:label="Groups"
+            android:screenOrientation="portrait">
+            
+        </activity>
+        
+        <activity 
+            android:name=".groups.GroupCreateScreen"
+            android:label="Groups"
+            android:screenOrientation="portrait">
+            
+        </activity>
+        
+        <activity 
+            android:name=".groups.GroupChatScreen"
+            android:label="Groups"
+            android:screenOrientation="portrait">
+        </activity>
+        <service android:name="com.parse.PushService" />
+		  
+		<receiver android:name="com.parse.ParseBroadcastReceiver">
+			  <intent-filter>
+			    <action android:name="android.intent.action.BOOT_COMPLETED" />
+			    <action android:name="android.intent.action.USER_PRESENT" />
+			  </intent-filter>
+		</receiver>
+		
+		 
+		<receiver android:name="com.parse.ParsePushBroadcastReceiver"
+    				android:exported="false">
+			  
+		  <intent-filter>
+		    <action android:name="com.parse.push.intent.RECEIVE" />
+		    <action android:name="com.parse.push.intent.DELETE" />
+		    <action android:name="com.parse.push.intent.OPEN" />
+		    </intent-filter>
+    
+		</receiver> 
+	
+	<receiver android:name="com.parse.GcmBroadcastReceiver"
+    			android:permission="com.google.android.c2dm.permission.SEND">
+	  <intent-filter>
+		    <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+		    <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+	        <category android:name="com.attribes.incommon" /> 
+  		</intent-filter>
+    </receiver>
+    </application>
+
+</manifest>

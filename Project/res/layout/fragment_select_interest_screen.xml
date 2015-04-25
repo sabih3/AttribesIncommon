@@ -1,0 +1,62 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    tools:context="com.attribes.incommon.SelectInterestScreen$PlaceholderFragment" >
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+         >
+
+        <LinearLayout
+            android:id="@+id/select_interest_not_found"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="200dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            
+           >
+
+            <TextView
+                android:id="@+id/interest_not_found"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:gravity="center"
+                android:textColor="#888888"
+                android:text="@string/interest_not_found" />
+
+            <Button
+                android:id="@+id/select_interest_add"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rounded_button"
+                android:text="@string/submit_interest"
+                android:textSize="16sp"
+                android:textColor="#FFFFFF" 
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                />
+        </LinearLayout>
+
+        <com.attribes.incommon.views.InterestLayout
+            android:id="@+id/selectInterest_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="15.0dp"
+            android:layout_marginRight="15.0dp"
+            android:layout_marginBottom="20dp"
+            android:visibility="visible" />
+    </FrameLayout>
+
+</ScrollView>

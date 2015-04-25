@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.attribes.incommon.CompleteProfileScreen" >
+    
+    <item
+        android:id="@+id/action_edit"
+        android:title="@string/action_edit"
+        android:icon="@drawable/bttn_edit_2"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_save"
+        android:title="@string/action_edit"
+        android:icon="@drawable/bttn_done_2"
+        app:showAsAction="always"/>
+</menu>

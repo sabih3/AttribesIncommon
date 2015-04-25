@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp"
+    android:background="@drawable/interest_bubble_shape_darker"
+    android:gravity="center"
+    android:padding="8dp"
+    android:text="Interest"
+    android:singleLine="true"
+    android:ellipsize="end"
+    android:textColor="@android:color/white"
+    android:textSize="16sp" >
+</TextView>

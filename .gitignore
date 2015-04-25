@@ -1,0 +1,12 @@
+bin
+
+Project/project.properties
+gen/
+.classpath
+.project
+proguard/
+.apk
+.ap_
+.dex
+local.properties
+.class

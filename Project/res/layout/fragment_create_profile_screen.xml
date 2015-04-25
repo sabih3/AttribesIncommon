@@ -1,0 +1,138 @@
+<android.support.v4.widget.DrawerLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ab_solid_background"
+    android:orientation="vertical"
+    tools:context="com.attribes.incommon.CreateProfileScreen$PlaceholderFragment" >
+        
+		<RelativeLayout 
+		    android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+        	android:orientation="horizontal"
+		    >
+	        <ImageView
+			        android:id="@+id/createProfile_profilePic"
+			        android:layout_width="match_parent"
+			        android:layout_height="230dp"
+			        android:adjustViewBounds="true"
+			        android:layout_gravity="bottom|center_horizontal"
+			        android:contentDescription="Profile Image"
+			        android:scaleType="centerCrop" />
+	        
+		       <ProgressBar
+		            style="?android:attr/progressBarStyleLarge"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:id="@+id/createProfile_progressBar"
+		            android:layout_centerVertical="true"
+		            android:layout_centerHorizontal="true" 
+		            android:visibility="visible"/>
+		       
+		        <com.mikhaellopez.circularimageview.CircularImageView
+			        android:id="@+id/createProfile_circle"
+			        android:layout_width="100dp"
+			        android:layout_height="100dp"
+			        android:layout_marginTop="50dp"
+			        android:layout_centerHorizontal="true"
+			        android:scaleType="centerCrop"
+			        app:border="true"
+			        app:border_width="2dp"
+			        />
+		        <TextView
+		            android:id="@+id/change_profile_pic"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="Change profile pic"
+		            android:layout_below="@id/createProfile_circle"
+		            android:layout_centerHorizontal="true"
+		            android:textColor="@android:color/white"
+		            android:textSize="14sp" />
+		</RelativeLayout>
+        <TextView
+            android:id="@+id/createProfile_name"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+        	android:layout_marginLeft="15dp"
+	    	android:layout_marginRight="15dp"
+            android:gravity="center_vertical"
+            android:textColor="#262626"
+            android:textSize="22sp" 
+            android:focusable="true"/>
+
+        <TextView
+            android:id="@+id/createProfile_descriptionView"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+        	android:layout_marginTop="10dp"
+       	 	android:layout_marginLeft="15dp"
+	        android:layout_marginRight="15dp"
+            android:textSize="20sp"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/createProfile_description"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/text_view_border"
+            android:gravity="top"
+            android:hint="Type description..."
+            android:imeOptions="actionDone"
+            android:inputType="textMultiLine"
+            android:textSize="18sp"
+            android:maxLength="430"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/createProfile_maxCharacters"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="end"
+            android:paddingRight="15dp"
+            android:text="@string/createProfile_maxCharacters"
+            android:textSize="16sp"
+            android:textColor="#888888" />
+
+        <Button
+            android:id="@+id/createProfile_chooseInterests"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/rounded_button"
+            android:gravity="center_horizontal|center_vertical"
+            android:onClick="showInterestScreen"
+            android:text="@string/createProfile_chooseInterest"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+    
+ <ListView
+        android:id="@+id/list_slidermenu"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:background="@color/list_background"
+        android:dividerHeight="1dp" />
+        <!--       
+        android:listSelector="@drawable/drawer_list_selector"
+        android:background="@color/list_background"
+         -->
+         
+</android.support.v4.widget.DrawerLayout>

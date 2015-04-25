@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.attribes.incommon.MatchProfile" >
+
+    <item
+        android:id="@+id/action_block"
+        android:orderInCategory="100"
+        android:title="Block"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_report"
+        android:orderInCategory="100"
+        android:title="Report"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_cancel"
+        android:orderInCategory="100"
+        android:title="Cancel"
+        app:showAsAction="never"/>
+
+</menu>

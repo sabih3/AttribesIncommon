@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+     >
+
+    <EditText
+        android:id="@+id/createGroup_groupName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Create group name"
+        android:textColorHint="#1E1E1E" >
+    </EditText>
+
+    <TextView 
+        android:id="@+id/createGroup_selectInterest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/createGroup_groupName"
+        android:padding="10dp"
+        android:drawableRight="@drawable/ic_action_next_item"
+        android:text="Select interest"
+        android:textColor="#1E1E1E"
+        />
+    
+    <View
+        android:id="@+id/createGroup_view" 
+        android:layout_below="@+id/createGroup_selectInterest"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        />
+    <RelativeLayout 
+        android:id="@+id/createGroup_participantContainer"
+        android:layout_below="@id/createGroup_view"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        >
+        
+	    <TextView
+	        android:id="@+id/createGroup_participants"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentBottom="true"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentTop="true"
+	        android:text="Invite friends to join:"
+	        android:textColor="#1E1E1E" />
+
+	    <TextView
+	        android:id="@+id/createGroup_participantCount"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignBaseline="@+id/createGroup_participants"
+	        android:layout_alignBottom="@+id/createGroup_participants"
+	        android:layout_alignParentRight="true"
+	        android:text="2 participants" />
+
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentBottom="true"
+		    android:layout_centerHorizontal="true"
+		    android:layout_margin="10dp"
+		    android:orientation="horizontal"
+		    android:paddingBottom="5dp"
+		    android:paddingTop="5dp" >
+
+		    <com.mikhaellopez.circularimageview.CircularImageView
+		        android:id="@+id/createGroup_image1"
+		        android:layout_width="30dp"
+		        android:layout_height="30dp"
+		        android:layout_alignParentBottom="true"
+		        android:layout_alignParentLeft="true"
+		        android:scaleType="centerCrop"
+		        app:border="false" />
+		    
+		    <com.mikhaellopez.circularimageview.CircularImageView
+		        android:id="@+id/createGroup_image2"
+		        android:layout_width="30dp"
+		        android:layout_height="30dp"
+		        android:layout_alignParentBottom="true"
+		        android:layout_alignParentLeft="true"
+		        android:scaleType="centerCrop"
+		        app:border="false" />
+		    
+		    <com.mikhaellopez.circularimageview.CircularImageView
+		        android:id="@+id/createGroup_image3"
+		        android:layout_width="30dp"
+		        android:layout_height="30dp"
+		        android:layout_alignParentBottom="true"
+		        android:layout_alignParentLeft="true"
+		        android:scaleType="centerCrop"
+		        app:border="false" />
+		    
+		    <com.mikhaellopez.circularimageview.CircularImageView
+		        android:id="@+id/createGroup_image4"
+		        android:layout_width="30dp"
+		        android:layout_height="30dp"
+		        android:layout_alignParentBottom="true"
+		        android:layout_alignParentLeft="true"
+		        android:scaleType="centerCrop"
+		        app:border="false" />
+		</LinearLayout>
+
+    </RelativeLayout>
+    <ListView 
+       android:id="@+id/createGroup_friendsList"
+       android:layout_below="@+id/createGroup_participantContainer"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="20dp"
+        >
+    </ListView>
+</RelativeLayout>

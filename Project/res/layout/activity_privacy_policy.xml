@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/connect_drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+<ScrollView 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+     >
+<RelativeLayout 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:background="@color/white" >
+    
+	<TextView 
+	    android:id="@+id/privacyPolicy_appName"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="15dp"
+	    android:text="@string/app_name"
+	    android:textColor="#fda204"
+	    android:textSize="35sp"
+	    android:background="@color/white"
+	    
+	    />
+	
+	<TextView 
+	    android:id="@+id/privacyPolicy_headingText"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="30dp"
+	    android:layout_below="@+id/privacyPolicy_appName"
+	    android:text="@string/privacyPolicy_heading"
+	    android:textSize="28sp"
+	    android:textColor="#262626"/>
+	
+ 	<TextView 
+	    android:id="@+id/privacyPolicy_update"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="5dp"
+	    android:layout_below="@+id/privacyPolicy_headingText"
+	    android:textColor="#a3a4a4"
+	    android:text=""/> 
+	
+	<TextView 
+	    android:id="@+id/privacyPolicy_policyText"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="20dp"
+	    android:layout_below="@+id/privacyPolicy_update"
+	    android:text="@string/privacyPolicy"
+	    android:textColor="#414242"
+	    android:textSize="15sp"
+	    />
+</RelativeLayout>
+</ScrollView>
+<!-- Listview to display slider menu -->
+    <ListView
+        android:id="@+id/list_slidermenu"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:background="@color/list_background"
+        android:dividerHeight="1dp" />
+        <!--       
+        android:listSelector="@drawable/drawer_list_selector"
+        android:background="@color/list_background"
+         -->
+</android.support.v4.widget.DrawerLayout>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+   android:background="#FEA104">
+   
+    
+    <ImageView 
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="160dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/icon_lets_get_started"/>
+    
+    <TextView
+        android:id="@+id/tourFour_title" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/tour_four_title"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF"/>
+    
+    <Button
+       android:id="@+id/fragmentFour_fbLoginButton"
+       android:layout_width="match_parent"
+       android:layout_height="50dp"
+       android:layout_marginTop="100dp"
+       android:gravity="center_horizontal|center_vertical"	
+       android:text="@string/main_fbConnect"
+       android:textColor="#FFFFFF" 
+       android:background="#FB8B02"
+       android:textSize="18sp"
+       android:onClick="onFacebookLoginClick"
+        />
+    
+    <Button
+      android:id="@+id/fragmentFour_googleLoginButton"
+       android:layout_width="match_parent"
+       android:layout_height="50dp"
+       android:gravity="center_horizontal|center_vertical"	
+       android:text="@string/main_googleConnect"
+       android:textColor="#FFFFFF" 
+       android:background="#FE9603"
+       android:textSize="18sp"
+       android:onClick="onGoogleLoginClick"
+        />
+
+</LinearLayout>

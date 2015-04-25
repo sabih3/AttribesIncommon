@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:layout_gravity="center_vertical"
+     >
+ 
+	 <com.mikhaellopez.circularimageview.CircularImageView
+       android:id="@+id/friendRequest_image"
+       android:layout_width="60dp"
+       android:layout_height="60dp"
+       android:layout_margin="10dp"
+       android:layout_gravity="center_vertical|start"
+       android:src="@drawable/placeholder"
+	   android:scaleType="centerCrop"
+       app:border="false"
+       
+       />
+
+	<RelativeLayout
+		android:id="@+id/friendRequest_nameLayout"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_toRightOf="@+id/friendRequest_image"
+	    android:orientation="vertical"
+	    android:layout_centerVertical="true"
+	    >
+	    
+	    <TextView
+	        android:id="@+id/friendRequest_name"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:textColor="#333333"
+	        android:textSize="18sp"/>
+
+	    <TextView 
+	        
+	       android:id="@+id/friendRequest_notificationType"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_below="@id/friendRequest_name"
+           android:layout_gravity="center_vertical"
+           android:layout_marginTop="2dp"
+           android:layout_marginRight="20dp"
+           android:layout_alignLeft="@+id/friendRequest_name"
+           android:textColor="#777777"
+           android:textSize="15sp"
+           android:text="Waseem has accepted your friend request"
+           />
+	    
+	   
+		<LinearLayout 
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal"
+		    android:layout_alignParentRight="true"
+		    android:layout_gravity="center_vertical"
+            android:layout_marginTop="16dp"
+		    android:layout_marginRight="25dp"
+		    >
+			    
+			
+	        <ImageView
+	            android:id="@+id/friendRequest_reject"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:src="@drawable/ic_cross_new1" 
+	            android:paddingRight="20dp"
+	            />
+	        
+	        <ImageView
+	            android:id="@+id/friendRequest_accept"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_toRightOf="@id/friendRequest_reject"
+	            android:src="@drawable/ic_check_new1" />
+	        
+	    </LinearLayout>
+	</RelativeLayout>
+
+     <RelativeLayout
+	   android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	     android:layout_alignParentRight="true"
+	     android:layout_marginRight="20dp"
+	    >    
+    
+    
+    <TextView 
+	     android:id="@+id/friendRequest_time"
+	     android:layout_width="wrap_content"
+	     android:layout_height="wrap_content"
+	     android:layout_alignParentTop="true"
+	     android:layout_marginTop="10dp"
+	     android:textSize="15sp"
+	     android:textColor="#999999"
+	     />
+           
+     </RelativeLayout>
+         
+
+</RelativeLayout>
