@@ -228,9 +228,7 @@ QBChatLoginListener{
 	public void showMessage(final QBMessage message) {
 		
 		//adapter.add(message);
-		if(message.getSenderId().equals(opponentID)){
-			
-		
+
 	        runOnUiThread(new Runnable() {
 	            @Override
 	            public void run() {
@@ -243,7 +241,7 @@ QBChatLoginListener{
 	
 	        });
 	        
-		}
+		
 		
 	}
 
