@@ -216,7 +216,7 @@ public class MatchProfile extends ActionBarActivity {
 				intent.putExtra("opponentUserId", profile.response.id);
 				intent.putExtra("opponentName", profile.response.name);
 				intent.putExtra("opponentQbId", profile.response.qb_id);
-
+                intent.putExtra(Constants.EXTRA_CHAT_MODE, Constants.Mode.PRIVATE);
 				startActivity(intent);
 				overridePendingTransition(R.anim.anim_left_in,
 						R.anim.anim_left_out);

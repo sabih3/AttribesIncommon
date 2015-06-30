@@ -14,7 +14,8 @@ import com.quickblox.chat.listeners.QBMessageListenerImpl;
 import com.quickblox.chat.listeners.QBPrivateChatManagerListener;
 import com.quickblox.chat.model.QBChatMessage;
 
-public class MessageHandler extends QBMessageListenerImpl<QBPrivateChat> implements ChatManager,QBPrivateChatManagerListener, QBIsTypingListener<QBPrivateChat>{
+public class MessageHandler extends QBMessageListenerImpl<QBPrivateChat> implements ChatManager,
+        QBPrivateChatManagerListener, QBIsTypingListener<QBPrivateChat>{
 
 	private MessageListener messageListener;
 	

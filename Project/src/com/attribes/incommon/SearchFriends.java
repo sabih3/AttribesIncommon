@@ -43,6 +43,7 @@ import com.androidquery.callback.AjaxStatus;
 //import com.attribes.incommon.DAO.User.Interest;
 import com.attribes.incommon.adapters.NavDrawerAdapter;
 import com.attribes.incommon.api.ApiRequest;
+import com.attribes.incommon.groups.GroupMainScreen;
 import com.attribes.incommon.models.MasterUser;
 //import com.attribes.incommon.api.RequestAddFriend;
 import com.attribes.incommon.models.NavDrawerItem;
@@ -127,7 +128,7 @@ SearchView.OnQueryTextListener , OnItemClickListener {
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[7]));
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[8]));
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[9]));
-	//	navDrawerItems.add(new NavDrawerItem(navMenuTitles[10]));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[10]));
 		
 		
 		adapter = new NavDrawerAdapter(getApplicationContext(), navDrawerItems,getUserFullName(),getUserImageUri());
@@ -212,12 +213,12 @@ SearchView.OnQueryTextListener , OnItemClickListener {
 			startActivity(intent);
 			break;
 			
-//		case 3:
-//			//TODO: have to change this
-//			Toast.makeText(getApplicationContext(), "Feature to be implemented ", Toast.LENGTH_SHORT).show();
-//			break;
-			
 		case 3:
+            intent = new Intent(this,GroupMainScreen.class);
+            startActivity(intent);
+			break;
+			
+		case 4:
 			if(this.getClass().getSimpleName().equals("SearchFriends"))
 			drawerLayout.closeDrawers();
 			else{
@@ -226,32 +227,32 @@ SearchView.OnQueryTextListener , OnItemClickListener {
 			}
 			break;
 		
-		case 4:
+		case 5:
 			intent = new Intent(this, SettingActivity.class);
 			startActivity(intent);
 			break;
 			
-		case 5:
+		case 6:
 		
 			intent = new Intent(this,PrivacyPolicyScreen.class);
 			startActivity(intent);
 			break;
 		
-		case 6:
+		case 7:
 			intent = new Intent(this, TermsOfServiceScreen.class);
 			startActivity(intent);
 			break;
 		
-		case 7:
+		case 8:
 			startContactIntent();
 			break;
 			
-		case 8:
+		case 9:
 			intent = new Intent(this, ShareScreen.class);
 			startActivity(intent);
 			break;
 		
-		case 9:
+		case 10:
 			showLogOutDialog();
 			break;
 			

@@ -29,8 +29,18 @@ public class FriendAllResponse {
 		public String image_uri;
 		public String is_login;
 		public String date_added;
-		public ArrayList<Interests> interests;	
-	}
+        public boolean selected;
+		public ArrayList<Interests> interests;
+
+
+        public boolean isSelected() {
+            return selected;
+        }
+
+        public void setSelected(boolean selected) {
+            this.selected = selected;
+        }
+    }
 	
 	
 	

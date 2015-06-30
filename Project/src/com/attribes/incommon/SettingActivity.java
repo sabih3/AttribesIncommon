@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.attribes.incommon.api.ApiRequest;
 import com.attribes.incommon.models.MasterUser;
-//import com.attribes.incommon.models.UserPreferences;
+//import com.attribes.incommon.models.UserDevicePreferences;
 import com.attribes.incommon.util.Constants;
 import com.attribes.incommon.util.Flurry;
 import com.yahoo.mobile.client.android.util.RangeSeekBar;

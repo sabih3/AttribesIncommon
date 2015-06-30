@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/ab_solid_background"
      >
 
     <EditText
@@ -13,31 +14,49 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Create group name"
-        android:textColorHint="#1E1E1E" >
+        android:textColorHint="#1E1E1E"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:background="@android:color/transparent"
+            >
     </EditText>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@id/createGroup_groupName">
+
+    </View>
 
     <TextView 
         android:id="@+id/createGroup_selectInterest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/createGroup_groupName"
-        android:padding="10dp"
         android:drawableRight="@drawable/ic_action_next_item"
         android:text="Select interest"
+        android:textSize="18sp"
         android:textColor="#1E1E1E"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
         />
-    
+
     <View
         android:id="@+id/createGroup_view" 
         android:layout_below="@+id/createGroup_selectInterest"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="20dp"
+        android:background="#F1F1F1"
         />
     <RelativeLayout 
         android:id="@+id/createGroup_participantContainer"
         android:layout_below="@id/createGroup_view"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="130dp"
         android:layout_margin="10dp"
         >
         
@@ -49,7 +68,12 @@
 	        android:layout_alignParentLeft="true"
 	        android:layout_alignParentTop="true"
 	        android:text="Invite friends to join:"
-	        android:textColor="#1E1E1E" />
+	        android:textColor="#1E1E1E"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:textSize="15sp"/>
 
 	    <TextView
 	        android:id="@+id/createGroup_participantCount"
@@ -58,62 +82,41 @@
 	        android:layout_alignBaseline="@+id/createGroup_participants"
 	        android:layout_alignBottom="@+id/createGroup_participants"
 	        android:layout_alignParentRight="true"
-	        android:text="2 participants" />
+	         />
 
 		<LinearLayout
+            android:id="@+id/createGroup_imageParent"
 		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
+		    android:layout_height="130dp"
 		    android:layout_alignParentBottom="true"
 		    android:layout_centerHorizontal="true"
-		    android:layout_margin="10dp"
+		    android:layout_marginTop="40dp"
 		    android:orientation="horizontal"
 		    android:paddingBottom="5dp"
 		    android:paddingTop="5dp" >
 
-		    <com.mikhaellopez.circularimageview.CircularImageView
-		        android:id="@+id/createGroup_image1"
-		        android:layout_width="30dp"
-		        android:layout_height="30dp"
-		        android:layout_alignParentBottom="true"
-		        android:layout_alignParentLeft="true"
-		        android:scaleType="centerCrop"
-		        app:border="false" />
-		    
-		    <com.mikhaellopez.circularimageview.CircularImageView
-		        android:id="@+id/createGroup_image2"
-		        android:layout_width="30dp"
-		        android:layout_height="30dp"
-		        android:layout_alignParentBottom="true"
-		        android:layout_alignParentLeft="true"
-		        android:scaleType="centerCrop"
-		        app:border="false" />
-		    
-		    <com.mikhaellopez.circularimageview.CircularImageView
-		        android:id="@+id/createGroup_image3"
-		        android:layout_width="30dp"
-		        android:layout_height="30dp"
-		        android:layout_alignParentBottom="true"
-		        android:layout_alignParentLeft="true"
-		        android:scaleType="centerCrop"
-		        app:border="false" />
-		    
-		    <com.mikhaellopez.circularimageview.CircularImageView
-		        android:id="@+id/createGroup_image4"
-		        android:layout_width="30dp"
-		        android:layout_height="30dp"
-		        android:layout_alignParentBottom="true"
-		        android:layout_alignParentLeft="true"
-		        android:scaleType="centerCrop"
-		        app:border="false" />
+            <com.devsmart.android.ui.HorizontalListView
+                    android:id="@+id/createGroup_list"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+
+                    />
+
 		</LinearLayout>
 
     </RelativeLayout>
-    <ListView 
-       android:id="@+id/createGroup_friendsList"
-       android:layout_below="@+id/createGroup_participantContainer"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_marginTop="20dp"
-        >
-    </ListView>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/createGroup_participantContainer">
+        <ListView
+                android:id="@+id/createGroup_friendsList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                >
+        </ListView>
+
+    </RelativeLayout>
+
 </RelativeLayout>

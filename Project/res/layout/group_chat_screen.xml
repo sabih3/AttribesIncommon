@@ -4,7 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout 
+    <TextView
+            android:id="@+id/group_chat_screen_particpants"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Group participants :"
+            android:layout_gravity="center_horizontal"/>
+
+
+
+    <RelativeLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,6 +31,13 @@
             android:hint="Write a message" 
             android:imeOptions="actionDone"
             />
+
+        <ProgressBar
+                android:id="@+id/group_chat_screen_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone"/>
 
         <ImageView 
             android:id="@+id/chatSendButton"
@@ -60,7 +76,7 @@
             style="?android:attr/progressBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/progressBar"
+            android:id="@+id/group_chat_progressBar"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" 
             android:visibility="gone"/>

@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.androidquery.callback.AjaxStatus;
 import com.attribes.incommon.adapters.NavDrawerAdapter;
 import com.attribes.incommon.api.ApiRequest;
+import com.attribes.incommon.groups.GroupMainScreen;
 import com.attribes.incommon.models.NavDrawerItem;
 import com.attribes.incommon.util.Constants;
 
@@ -103,6 +104,7 @@ public class DrawerScreen extends BaseActivity{
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[7]));
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[8]));
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[9]));
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[10]));
 		
 		
 		getUserName();
@@ -178,43 +180,45 @@ public class DrawerScreen extends BaseActivity{
 			break;
 			
 		case 3:
-//			intent = new Intent(this,GroupMainScreen.class);
-//			startActivity(intent);
-			
-			if(this.getClass().getSimpleName().equals("SearchFriends"))
-				drawerLayout.closeDrawers();
-				else{
-					intent = new Intent(this, SearchFriends.class);
-					startActivity(intent);
-				}
+			intent = new Intent(this,GroupMainScreen.class);
+			startActivity(intent);
+
 			break;
 			
-			
-		case 4:
+        case 4:
+            if(this.getClass().getSimpleName().equals("SearchFriends"))
+                drawerLayout.closeDrawers();
+            else{
+                intent = new Intent(this, SearchFriends.class);
+                startActivity(intent);
+            }
+            break;
+
+		case 5:
 			intent = new Intent(this, SettingActivity.class);
 			startActivity(intent);
 			break;
 		
-		case 5:
+		case 6:
 			intent = new Intent(this,PrivacyPolicyScreen.class);
 			startActivity(intent);
 			break;
 			
-		case 6:
+		case 7:
 			intent = new Intent(this, TermsOfServiceScreen.class);
 			startActivity(intent);
 			break;
 		
-		case 7:
+		case 8:
 			startContactIntent();
 			break;
 		
-		case 8:
+		case 9:
 			intent = new Intent(this, ShareScreen.class);
 			startActivity(intent);
 			break;
 			
-		case 9:
+		case 10:
 			showLogOutDialog();
 			break;
 		

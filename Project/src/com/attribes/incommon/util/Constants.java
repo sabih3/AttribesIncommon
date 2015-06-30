@@ -1,7 +1,9 @@
 package com.attribes.incommon.util;
 
 public class Constants {
-	public static String FLURRY_KEY = "BF3RF9TVFSN3YN643CHR";
+
+    public static final String EXTRA_QBDIALOG = "qbdialog";
+    public static String FLURRY_KEY = "BF3RF9TVFSN3YN643CHR";
 	public static String IS_EDIT = "edit_mode";
 	public static final String PROJECT_NUMBER = "136458693581";
 	public static final int CHAT_NOTIFICATION_ID = 1;
@@ -82,5 +84,8 @@ public class Constants {
 	public static final String PROPERTY_REG_ID = "registration_id";
 	public static final String TAG = "PlayServicesHelper";
 	public static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    public static String EXTRA_CHAT_MODE = "mode";
+    public static final String EXTRA_INTENT_GROUP = "groupName";
+    public static enum Mode{PRIVATE , GROUP}
 	
 }

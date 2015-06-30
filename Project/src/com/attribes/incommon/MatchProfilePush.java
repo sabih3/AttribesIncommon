@@ -146,7 +146,8 @@ public class MatchProfilePush extends BaseActivity {
 				Intent intent=new Intent(MatchProfilePush.this,ChatScreen.class);
 				intent.putExtra("opponentName", profile.response.name);
 				intent.putExtra("opponentQbId", profile.response.qb_id);
-				startActivity(intent);
+				intent.putExtra(Constants.EXTRA_CHAT_MODE,Constants.Mode.PRIVATE);
+                startActivity(intent);
 				finish();
 			}
 		});

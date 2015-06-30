@@ -16,6 +16,7 @@
 			    android:visibility="gone"
 			    
 			    />
+
 	<RelativeLayout 
 	    android:id="@+id/chatMessage_messageContent"
 	    android:orientation="vertical"
@@ -24,6 +25,7 @@
 	    android:layout_toRightOf="@id/chatMessage_userImage"
 	    
 	    >
+
 	    <TextView 
 	        android:id="@+id/chatMessage_message"
 	        android:layout_width="wrap_content"

@@ -19,13 +19,20 @@
        
        />
  
-    <CheckedTextView        
+    <TextView
         android:id="@+id/group_friend_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="8dp"
         android:layout_weight="1.6" >
-    </CheckedTextView>
+    </TextView>
+
+    <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/group_friend_checkBox"
+            android:layout_gravity="end"
+            />
 
 </LinearLayout>

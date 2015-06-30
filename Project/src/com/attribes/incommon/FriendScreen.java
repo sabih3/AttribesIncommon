@@ -32,9 +32,12 @@ import com.androidquery.callback.AjaxStatus;
 import com.attribes.incommon.adapters.FriendAllAdapter;
 import com.attribes.incommon.models.FriendAllResponse;
 import com.attribes.incommon.models.FriendAllResponse.Response;
+import com.attribes.incommon.network.RestClient;
 import com.attribes.incommon.util.Constants;
 //import com.attribes.incommon.models.SearchFriendsModel;
 import com.google.gson.Gson;
+import retrofit.Callback;
+import retrofit.RetrofitError;
 
 public class FriendScreen extends DrawerScreen implements OnItemClickListener,MultiChoiceModeListener,SearchView.OnQueryTextListener{
 	
@@ -74,13 +77,29 @@ public class FriendScreen extends DrawerScreen implements OnItemClickListener,Mu
 		BaseActivity baseActivity=new BaseActivity();
 		baseActivity.context = this;
 		String url = Constants.BaseUrl + Constants.friendAll;
-		AjaxCallback<String> cb = new AjaxCallback<String>();        
+		AjaxCallback<String> cb = new AjaxCallback<String>();
 		cb.url(url).type(String.class).weakHandler(FriendScreen.this, "friendResult");
-		
+
 		cb.param("authorization", Constants.AUTHORIZATION);
 		cb.param("sm_token", baseActivity.getSmToken());
-		
+
 		aq.ajax(cb);
+
+//        RestClient.getAdapter().getFriends(Constants.AUTHORIZATION, baseActivity.getSmToken(), new Callback<FriendAllResponse>() {
+//
+//            @Override
+//            public void success(FriendAllResponse friendAllResponse, retrofit.client.Response response) {
+//
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError retrofitError) {
+//
+//            }
+//        });
+
+
+
 	}
 
 	public void friendResult(String url, String json,AjaxStatus status){

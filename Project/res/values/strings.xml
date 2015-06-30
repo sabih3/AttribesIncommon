@@ -115,11 +115,13 @@ Last updated 29th January 2014\n
 \nThis agreement will be updated from time to time.</string>
 	
 <string name="create_group">Create</string>
-<string-array name="nav_drawer_items">
+    <string name="group_participants">Group participants :</string>
+    <string name="blank_group_name">Please provide group name</string>
+    <string-array name="nav_drawer_items">
     	<item >header</item>
         <item >Friends</item>
         <item >Activity</item>
-        <!-- <item >Groups</item> -->
+        <item >Groups</item>
         <item >Search by Interest</item>
         <item >Preferences</item>
         <item >Privacy Policy</item>

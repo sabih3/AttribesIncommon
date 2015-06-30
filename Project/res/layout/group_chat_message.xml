@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res/com.attribes.incommon"
+        android:id="@+id/groupChatMessage_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="start"
+        android:layout_marginTop="10dp">
+
+
+    <TextView
+            android:id="@+id/groupChatMessage_senderName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="60dp"
+            android:textColor="@color/chat_message_time"
+
+            />
+
+    <LinearLayout
+            android:id="@+id/groupChatMessage_messageContent"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            >
+        <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/groupChatMessage_userImage"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:border="false"
+                android:visibility="gone"
+
+                />
+        <TextView
+                android:id="@+id/groupChatMessage_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CHat message"
+                android:background="@drawable/out_with_gap_top"
+                />
+
+
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/groupChatMessage_messageInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="1 hour ago"
+            android:textColor="@color/chat_message_time"
+            />
+
+</LinearLayout>

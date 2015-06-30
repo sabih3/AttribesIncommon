@@ -3,6 +3,7 @@ package com.attribes.incommon;
 import java.util.ArrayList;
 import java.util.Set;
 
+import com.attribes.incommon.util.UserDevicePreferences;
 import org.acra.ACRA;
 import org.acra.ReportField;
 import org.acra.ReportingInteractionMode;
@@ -74,7 +75,7 @@ public class AppController extends Application implements
 		super.onCreate();
 
 		AppController.context = getApplicationContext();
-
+        UserDevicePreferences.getInstance().init(this);
 		apiRequest = new ApiRequest(this);
 		registerActivityLifecycleCallbacks(this);
 		if (isUserRegistered()) {
