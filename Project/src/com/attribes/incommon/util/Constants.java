@@ -3,6 +3,7 @@ package com.attribes.incommon.util;
 public class Constants {
 
     public static final String EXTRA_QBDIALOG = "qbdialog";
+    public static final String EXTRA_QBUSERS = "qbUsers";
     public static String FLURRY_KEY = "BF3RF9TVFSN3YN643CHR";
 	public static String IS_EDIT = "edit_mode";
 	public static final String PROJECT_NUMBER = "136458693581";
@@ -87,5 +88,5 @@ public class Constants {
     public static String EXTRA_CHAT_MODE = "mode";
     public static final String EXTRA_INTENT_GROUP = "groupName";
     public static enum Mode{PRIVATE , GROUP}
-	
+
 }

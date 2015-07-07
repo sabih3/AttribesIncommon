@@ -1,11 +1,18 @@
 package com.attribes.incommon.chat.core;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import com.attribes.incommon.ChatScreen;
+import com.attribes.incommon.groups.GroupDialogUpdateListener;
+import com.quickblox.core.exception.QBResponseException;
+import com.quickblox.core.request.QBRequestUpdateBuilder;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smackx.muc.DiscussionHistory;
@@ -31,20 +38,34 @@ public class GroupChatManagerImpl extends QBMessageListenerImpl<QBGroupChat> imp
     private static QBGroupChatManager groupChatManager;
     private static QBGroupChat groupChat;
     private ChatScreen chatScreen;
-
-
+    private Context mContext;
+    private QBDialog updatedDialog;
+    private GroupDialogUpdateListener groupDialogUpdateListener;
 
     public GroupChatManagerImpl(GroupChatScreen groupChatActivity){
         this.groupChatActivity = groupChatActivity;
         if(!QBChatService.isInitialized()){
             QBChatService.init(groupChatActivity);
         }
-        groupChatManager=QBChatService.getInstance().getGroupChatManager();
+        groupChatManager = QBChatService.getInstance().getGroupChatManager();
+    }
+
+    public GroupChatManagerImpl(Context context){
+        this.mContext =context;
+        if(!QBChatService.isInitialized()){
+            QBChatService.init(mContext);
+        }
+        groupChatManager = QBChatService.getInstance().getGroupChatManager();
     }
 
     public GroupChatManagerImpl(ChatScreen chatActivity){
         this.chatScreen = chatActivity;
         groupChatManager = QBChatService.getInstance().getGroupChatManager();
+    }
+
+    public void setGroupDialogUpdateListener(GroupDialogUpdateListener groupDialogUpdateListener){
+
+        this.groupDialogUpdateListener = groupDialogUpdateListener;
     }
 
     public void joinGroupChat(QBDialog dialog,QBEntityCallback callback){
@@ -131,4 +152,128 @@ public class GroupChatManagerImpl extends QBMessageListenerImpl<QBGroupChat> imp
         }
 
     }
+
+    public void updateGroupChatOccupants(QBDialog dialog, ArrayList<Integer> participantAddList,
+                                         ArrayList<Integer> participantRemoveList,QBEntityCallbackImpl callback){
+
+        ArrayList<String> addParticipantStringList = new ArrayList<>();
+        ArrayList<String> removeParticipantStringList = new ArrayList<>();
+
+        String addParticipants = "";
+        String removeParticipants = "";
+        QBRequestUpdateBuilder requestBuilder = new QBRequestUpdateBuilder();
+
+        if(participantRemoveList.size() >= 1){
+
+            for(Integer i : participantRemoveList){
+                removeParticipantStringList.add(Integer.toString(i));
+            }
+
+            removeParticipants = TextUtils.join(",",removeParticipantStringList);
+            requestBuilder.pullAll("occupants_ids", removeParticipants);
+
+
+            groupChatManager.updateDialog(dialog, requestBuilder, new QBEntityCallback<QBDialog>() {
+
+                @Override
+                public void onSuccess(QBDialog dialog, Bundle bundle) {
+                    updatedDialog = dialog;
+                    groupDialogUpdateListener.OnGroupDialogUpdated(dialog);
+                    //callback.onSuccess();
+                }
+
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onError(List<String> list) {
+
+                }
+            });
+        }
+        if(participantAddList.size() >= 1) {
+
+
+            for(Integer i : participantAddList){
+                addParticipantStringList.add(Integer.toString(i));
+            }
+
+            addParticipants= TextUtils.join(",",addParticipantStringList);
+            requestBuilder.push("occupants_ids",addParticipants);
+
+
+
+            groupChatManager.updateDialog(dialog, requestBuilder, new QBEntityCallback<QBDialog>() {
+
+                @Override
+                public void onSuccess(QBDialog dialog, Bundle bundle) {
+                    updatedDialog = dialog;
+                    groupDialogUpdateListener.OnGroupDialogUpdated(dialog);
+                    //callback.onSuccess();
+                }
+
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onError(List<String> list) {
+
+                }
+            });
+
+        }
+
+
+
+
+
+
+    }
+
+    public void updateGroupChatDialog(QBDialog dialog, String newGroupName, QBEntityCallbackImpl callback){
+        QBRequestUpdateBuilder requestBuilder = new QBRequestUpdateBuilder();
+
+        requestBuilder.addParameter("name",newGroupName);
+
+
+        groupChatManager.updateDialog(dialog, requestBuilder, new QBEntityCallbackImpl<QBDialog>() {
+
+            @Override
+            public void onSuccess(QBDialog dialog, Bundle bundle) {
+                callback.onSuccess();
+            }
+
+            @Override
+            public void onError(List<String> list) {
+
+            }
+        });
+    }
+
+    public void deleteDialog(String dialogId, QBEntityCallbackImpl callback){
+        groupChatManager.deleteDialog(dialogId, new QBEntityCallback<Void>() {
+
+            @Override
+            public void onSuccess(Void aVoid, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onSuccess() {
+            callback.onSuccess();
+            }
+
+            @Override
+            public void onError(List<String> list) {
+
+            }
+        });
+
+    }
+
+
 }

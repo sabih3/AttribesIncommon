@@ -21,4 +21,5 @@
     <color name="online_user">#FF8B48</color>
     <color name="tabTextColor">#505050</color>
     <color name="tabBackgroundColor">#eeeeee</color>
+    <color name="lite_grey">#F1F1F1</color>
 </resources>

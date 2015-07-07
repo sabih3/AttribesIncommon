@@ -64,7 +64,7 @@ public class FriendScreen extends DrawerScreen implements OnItemClickListener,Mu
 		friendList = (ListView) findViewById(R.id.friendsList);
 		friendList.setOnItemClickListener(this);
 		friendList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-		friendList.setMultiChoiceModeListener(this);
+        friendList.setMultiChoiceModeListener(this);
 		
 		aq = new AQuery(this);
 		
@@ -84,21 +84,6 @@ public class FriendScreen extends DrawerScreen implements OnItemClickListener,Mu
 		cb.param("sm_token", baseActivity.getSmToken());
 
 		aq.ajax(cb);
-
-//        RestClient.getAdapter().getFriends(Constants.AUTHORIZATION, baseActivity.getSmToken(), new Callback<FriendAllResponse>() {
-//
-//            @Override
-//            public void success(FriendAllResponse friendAllResponse, retrofit.client.Response response) {
-//
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError retrofitError) {
-//
-//            }
-//        });
-
-
 
 	}
 
@@ -141,7 +126,7 @@ public class FriendScreen extends DrawerScreen implements OnItemClickListener,Mu
 
 	@Override
 	public boolean onCreateActionMode (ActionMode mode, Menu menu){
-		MenuInflater inflater=mode.getMenuInflater();
+		MenuInflater inflater = mode.getMenuInflater();
 		inflater.inflate(R.menu.menu_friend_list, menu);
 		menu.findItem(R.id.delete).setVisible(false);
 		

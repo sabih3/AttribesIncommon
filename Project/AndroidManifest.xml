@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.attribes.incommon"
-    android:versionCode="19"
-    android:versionName="1.7.2" >
+    android:versionCode="20"
+    android:versionName="1.7.3" >
 
     <uses-sdk
         android:minSdkVersion="16"
@@ -198,7 +198,6 @@
         
         <activity 
             android:name=".FriendScreen"
-            
             android:label="@string/activity_friend_screen"
             android:parentActivityName=".SearchFriends"
             android:screenOrientation="portrait">
@@ -285,7 +284,23 @@
             android:label="Groups"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".groups.ChooseInterestScreen"/>
+
+        <activity android:name=".groups.ChooseInterestScreen"
+                  android:label="Choose interest"
+                  android:screenOrientation="portrait">
+
+        <intent-filter>
+            <action android:name="android.intent.action.SEARCH" />
+        </intent-filter>
+
+        <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable"
+                />
+
+        </activity>
+        <activity android:name=".groups.GroupDetailScreen" android:label="Group Detail"/>
+
         <service android:name="com.parse.PushService" />
 		  
 		<receiver android:name="com.parse.ParseBroadcastReceiver">

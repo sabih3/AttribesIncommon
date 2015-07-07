@@ -6,10 +6,13 @@
 
     <TextView
             android:id="@+id/group_chat_screen_particpants"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Group participants :"
-            android:layout_gravity="center_horizontal"/>
+            android:padding="20dp"
+            android:gravity="center"
+            android:background="@drawable/ab_solid_background"
+            />
 
 
 
@@ -18,7 +21,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:background="@drawable/ab_solid_background">
 
         <EditText
@@ -60,7 +64,8 @@
             android:listSelector="@android:color/transparent"
             android:transcriptMode="alwaysScroll"
             android:overScrollMode="never" 
-            />
+            android:scrollbars="none"
+                />
 		
 		<TextView 
 			android:id="@+id/isTypingView"

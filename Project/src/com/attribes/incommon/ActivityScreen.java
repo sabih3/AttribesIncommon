@@ -44,9 +44,9 @@ public class ActivityScreen extends SearchFriends{
        
 
         
-           TabPageIndicator indicator = (TabPageIndicator)findViewById(R.id.indicator_tab);
-           indicator.setTypeFace(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/"+Constants.FONT_PROXI_REGULAR));
-           indicator.setViewPager(pager, 0);
+       TabPageIndicator indicator = (TabPageIndicator)findViewById(R.id.indicator_tab);
+       indicator.setTypeFace(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/"+Constants.FONT_PROXI_REGULAR));
+       indicator.setViewPager(pager, 0);
           
 
 //        PagerTabStrip titleStrip = (PagerTabStrip)findViewById(R.id.pager_title_strip);

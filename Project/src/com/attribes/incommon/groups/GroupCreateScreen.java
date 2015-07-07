@@ -184,6 +184,8 @@ OnInterestSelectedListener{
 		intent.putExtra(Constants.EXTRA_CHAT_MODE,Constants.Mode.GROUP);
         intent.putIntegerArrayListExtra("groupChatOpponentIds", opponentIds);
 		startActivity(intent);
+        overridePendingTransition(R.anim.anim_left_in,R.anim.anim_right_out);
+        finish();
 		
 	}
 	

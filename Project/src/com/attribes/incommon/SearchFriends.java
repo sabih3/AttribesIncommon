@@ -202,20 +202,32 @@ SearchView.OnQueryTextListener , OnItemClickListener {
 			break;
 		
 		case 2:
-			
-			SharedPreferences registrationPrefs = getSharedPreferences(Constants.PREFS_NAME, 0);
-			SharedPreferences.Editor editor = registrationPrefs.edit();
-			editor.putInt("notificationCount", 0);
-			editor.commit();
-			drawerList.invalidateViews();
-			
-			intent = new Intent(this, ActivityScreen.class);
-			startActivity(intent);
+			if(this.getClass().getSimpleName().equals(ActivityScreen.class.getSimpleName())){
+                drawerLayout.closeDrawers();
+            }
+
+            else{
+                SharedPreferences registrationPrefs = getSharedPreferences(Constants.PREFS_NAME, 0);
+                SharedPreferences.Editor editor = registrationPrefs.edit();
+                editor.putInt("notificationCount", 0);
+                editor.commit();
+                drawerList.invalidateViews();
+
+                intent = new Intent(this, ActivityScreen.class);
+                startActivity(intent);
+            }
+
 			break;
 			
 		case 3:
-            intent = new Intent(this,GroupMainScreen.class);
-            startActivity(intent);
+            if(this.getClass().getSimpleName().equals(GroupMainScreen.class.getSimpleName())){
+                drawerLayout.closeDrawers();
+            }
+            else{
+                intent = new Intent(this,GroupMainScreen.class);
+                startActivity(intent);
+
+            }
 			break;
 			
 		case 4:

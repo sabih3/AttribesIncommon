@@ -3,16 +3,19 @@ package com.attribes.incommon.groups;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.androidquery.AQuery;
 import com.attribes.incommon.BaseActivity;
+import com.attribes.incommon.DrawerScreen;
 import com.attribes.incommon.R;
 import com.attribes.incommon.adapters.MessageAdapter;
 import com.attribes.incommon.util.Constants;
@@ -26,33 +29,43 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupMainScreen extends BaseActivity implements ListView.OnItemClickListener{
+public class GroupMainScreen extends DrawerScreen implements ListView.OnItemClickListener, OnGroupDialogDeleted{
 	
 	private AQuery mAquery;
     private ArrayList<QBDialog> dialogList;
     private ListView listDialogs;
     private TextView newGroupText;
     private ProgressBar progressBar;
-	
-	@Override
+    private GroupDialogAdapter adapter;
+    private DrawerLayout mDrawer;
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_group_main);
+
+        ViewGroup content=(ViewGroup) findViewById(R.id.frame_container);
+        getLayoutInflater().inflate(R.layout.activity_group_main, content, true);
+
+        mDrawer = (DrawerLayout) findViewById(R.id.connect_drawer_layout);
+        mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+		//setContentView(R.layout.activity_group_main);
 
 		initContents();
         setActionBarStyling();
+
 	}
 
 	private void initContents() {
 		mAquery = new AQuery(this);
-        progressBar =(ProgressBar)findViewById(R.id.groupMainScreen_progress);
-        progressBar.setVisibility(View.VISIBLE);
+
 
         listDialogs = (ListView) findViewById(R.id.groupMainScreen_list);
         newGroupText = (TextView)findViewById(R.id.groupMainScreen_greetingText);
         newGroupText.setTypeface(setCustomFont(Constants.FONT_PROXI_LIGHT));
 		mAquery.id(R.id.groupMainScreen_greetingText).typeface(setCustomFont(Constants.FONT_PROXI_REGULAR));
 
+        GroupChatScreen groupChat=new GroupChatScreen();
+        groupChat.setOnGroupDialogDeleted(this);
         getDialogs();
 	}
 	
@@ -78,6 +91,8 @@ public class GroupMainScreen extends BaseActivity implements ListView.OnItemClic
 
 
     private void getDialogs(){
+        progressBar =(ProgressBar)findViewById(R.id.groupMainScreen_progress);
+        progressBar.setVisibility(View.VISIBLE);
         QBRequestGetBuilder requestBuilder = new QBRequestGetBuilder();
         requestBuilder.setPagesLimit(100);
         requestBuilder.sortDesc("last_message_date_sent");
@@ -101,6 +116,8 @@ public class GroupMainScreen extends BaseActivity implements ListView.OnItemClic
     }
 
     private void updateUI(ArrayList<QBDialog> dialogList) {
+        initializeDrawer();
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         if(dialogList.isEmpty()){
             newGroupText.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
@@ -110,7 +127,7 @@ public class GroupMainScreen extends BaseActivity implements ListView.OnItemClic
 
         else{
             progressBar.setVisibility(View.GONE);
-            GroupDialogAdapter adapter=new GroupDialogAdapter(this,dialogList);
+            adapter=new GroupDialogAdapter(this,dialogList);
             listDialogs.setAdapter(adapter);
             newGroupText.setVisibility(View.GONE);
             listDialogs.setOnItemClickListener(this);
@@ -131,5 +148,23 @@ public class GroupMainScreen extends BaseActivity implements ListView.OnItemClic
 
         intent.putExtra(Constants.EXTRA_QBDIALOG,qbDialog);
         startActivity(intent);
+        overridePendingTransition(R.anim.anim_left_in, R.anim.anim_right_in);
+    }
+
+    @Override
+    public void OnGroupDialogDelete() {
+        getDialogs();
+    }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        initContents();
+//    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        initContents();
     }
 }

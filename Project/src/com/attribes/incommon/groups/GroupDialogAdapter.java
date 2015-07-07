@@ -68,7 +68,7 @@ public class GroupDialogAdapter extends BaseAdapter{
         }
 
         viewHolder.userNameView.setText(dialogsList.get(position).getName());
-        viewHolder.lastMessageView.setText(dialogsList.get(position).getLastMessage());
+        //viewHolder.lastMessageView.setText(dialogsList.get(position).getLastMessage());
         viewHolder.lastMessageDateView.setText(getTimeText(dialogsList.get(position).getLastMessageDateSent()));
 
         return convertView;

@@ -14,9 +14,16 @@ public class InterestsModel {
 	public class Response{
 		public String id;
 		public String title;
-	}
-	
-	public class Meta{
+
+        @Override
+        public String toString() {
+            return this.title;
+        }
+    }
+
+
+
+    public class Meta{
 		String message;
 		String status;
 	}

@@ -68,11 +68,7 @@ public class FriendForGroupAdapter extends BaseAdapter{
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
 
-
-
-
                     if (compoundButton.isChecked()) {
-
 
                         GroupChatList.getInstance().addOccupant(friendList.get(position));
                         friendList.get(position).setSelected(true);

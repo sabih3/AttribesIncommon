@@ -180,8 +180,14 @@ public class DrawerScreen extends BaseActivity{
 			break;
 			
 		case 3:
-			intent = new Intent(this,GroupMainScreen.class);
-			startActivity(intent);
+            if(this.getClass().getSimpleName().equals(GroupMainScreen.class.getSimpleName())){
+                drawerLayout.closeDrawers();
+            }
+            else{
+                intent = new Intent(this,GroupMainScreen.class);
+                startActivity(intent);
+
+            }
 
 			break;
 			

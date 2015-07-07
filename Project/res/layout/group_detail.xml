@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/ab_solid_background">
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:layout_margin="10dp">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/group_detail_groupAvatar"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                />
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="10dp">
+
+            <TextView
+                      android:id="@+id/group_detail_participantNames"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="Sergey feduntants, Igor khomenko, Andrey Kolesnik"
+                    />
+            <TextView
+                      android:id="@+id/group_detail_participantCount"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="4 participants"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            >
+
+
+    <View android:layout_width="match_parent"
+          android:layout_height="30dp"
+          android:background="@color/lite_grey"
+          />
+
+    </LinearLayout>
+
+    <ListView
+            android:id="@+id/group_detail_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+    </ListView>
+</LinearLayout>

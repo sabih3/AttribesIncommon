@@ -1,37 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<RelativeLayout
-	    xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
-        android:background="@drawable/ab_solid_background">
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                        xmlns:tools="http://schemas.android.com/tools"
+                                        android:id="@+id/connect_drawer_layout"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:textAlignment="center" >
 
-    <ListView
-            android:id="@+id/groupMainScreen_list"
+    <RelativeLayout
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:background="@drawable/ab_solid_background">
 
-    </ListView>
+        <ListView
+                android:id="@+id/groupMainScreen_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <ProgressBar
-            android:id="@+id/groupMainScreen_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone"/>
+        </ListView>
 
-    <TextView
+        <ProgressBar
+                android:id="@+id/groupMainScreen_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone"/>
 
-            android:id="@+id/groupMainScreen_greetingText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="143dp"
-            android:text="You can get started by creating a  new group"
-            android:textSize="26sp"
-            android:gravity="center"
-            android:visibility="gone"
-            />
+        <TextView
+
+                android:id="@+id/groupMainScreen_greetingText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="143dp"
+                android:text="You can get started by creating a  new group"
+                android:textSize="26sp"
+                android:gravity="center"
+                android:visibility="gone"
+                />
 
 	    	
-	</RelativeLayout>
+    </RelativeLayout>
+    <ListView
+            android:id="@+id/list_slidermenu"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:choiceMode="singleChoice"
+            android:background="@color/list_background"
+            android:dividerHeight="1dp" />
+
+</android.support.v4.widget.DrawerLayout>
