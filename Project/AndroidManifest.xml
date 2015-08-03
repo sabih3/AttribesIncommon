@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.attribes.incommon"
     android:versionCode="20"
-    android:versionName="1.7.3" >
+    android:versionName="1.7.8" >
 
     <uses-sdk
         android:minSdkVersion="16"
@@ -21,6 +21,7 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
     <uses-permission android:name="com.attribes.incommon.permission.C2D_MESSAGE"/>
 	<uses-permission android:name="android.permission.GET_TASKS" />
+
     <permission android:name="com.attribes.incommon.permission.C2D_MESSAGE"
         		android:protectionLevel="signature" />
     <application
@@ -34,7 +35,18 @@
        
         <meta-data android:name="com.google.android.gms.version"
         			android:value="@integer/google_play_services_version" />
-        
+
+        <receiver android:name=".util.NetworkChangeReceiver"
+                  android:label="NetworkChangeReceiver">
+            <intent-filter>
+
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+            </intent-filter>
+
+
+        </receiver>
+
         <receiver
             android:name=".GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
@@ -268,8 +280,9 @@
         <activity 
             android:name=".groups.GroupMainScreen"
             android:label="Groups"
-            android:screenOrientation="portrait">
-            
+            android:screenOrientation="portrait"
+            android:exported = "true">
+
         </activity>
         
         <activity 
@@ -282,7 +295,8 @@
         <activity 
             android:name=".groups.GroupChatScreen"
             android:label="Groups"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:exported = "true">
         </activity>
 
         <activity android:name=".groups.ChooseInterestScreen"
@@ -299,7 +313,9 @@
                 />
 
         </activity>
-        <activity android:name=".groups.GroupDetailScreen" android:label="Group Detail"/>
+        <activity android:name=".groups.GroupDetailScreen"
+                  android:label="Group Detail"
+                  />
 
         <service android:name="com.parse.PushService" />
 		  

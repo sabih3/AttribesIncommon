@@ -98,7 +98,7 @@ public class FriendAllAdapter extends BaseAdapter implements Filterable{
 			viewHolder.isOfflineView.setVisibility(ImageView.VISIBLE);
 		}
 		
-		Picasso.with(activity).load(responseArrayList.get(position).image_uri).into(viewHolder.circularImageView);
+		Picasso.with(activity).load(responseArrayList.get(position).image_uri).placeholder(R.drawable.human_place_holder).into(viewHolder.circularImageView);
 		viewHolder.friendNameTextView.setText(responseArrayList.get(position).name+ " , "+ responseArrayList.get(position).age);
 
 		return convertView;

@@ -22,4 +22,7 @@
     <color name="tabTextColor">#505050</color>
     <color name="tabBackgroundColor">#eeeeee</color>
     <color name="lite_grey">#F1F1F1</color>
+    <color name="lite_grey_text">#6D6D6D</color>
+    <color name="selected_interest_color_group">#ee7724</color>
+
 </resources>

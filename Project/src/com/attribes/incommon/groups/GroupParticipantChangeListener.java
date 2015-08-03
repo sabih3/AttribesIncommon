@@ -1,5 +1,7 @@
 package com.attribes.incommon.groups;
 
+import com.quickblox.users.model.QBUser;
+
 import java.util.ArrayList;
 
 /**
@@ -7,5 +9,6 @@ import java.util.ArrayList;
  */
 public interface GroupParticipantChangeListener {
 
-    void OnParticipantChange(ArrayList<Integer> participantAddList, ArrayList<Integer>participantRemoveList);
+    void OnParticipantChange(ArrayList<Integer> participantAddList, ArrayList<Integer> participantRemoveList,
+                             QBUser participantAddedNames, QBUser participantRemovedNames);
 }

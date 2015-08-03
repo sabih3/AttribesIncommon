@@ -35,6 +35,7 @@ import com.attribes.incommon.util.Constants;
 import com.attribes.incommon.util.Flurry;
 import com.attribes.incommon.views.InterestLayout;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 @SuppressLint("DefaultLocale")
 public class MatchProfile extends ActionBarActivity {
@@ -51,15 +52,16 @@ public class MatchProfile extends ActionBarActivity {
 	AQuery aq;
 	Typeface lightFont, regularFont;
 	Boolean userLiked;
-	
+    private ImageView imageView;
 
-	@Override
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_match_profile_interest);
 		api = new ApiRequest(this);
 		aq = new AQuery(this);
-		
+		imageView=(ImageView)findViewById(R.id.createProfile_profilePic);
 		otherInterestLayout = (InterestLayout) findViewById(R.id.matchProfile_otherInterestList);
 
 		setActionBarStyling();
@@ -148,7 +150,8 @@ public class MatchProfile extends ActionBarActivity {
 				"fonts/Mark Simonson - Proxima Nova Light.ttf");
 		regularFont = Typeface.createFromAsset(getAssets(),
 				"fonts/Mark Simonson - Proxima Nova Regular.ttf");
-		aq.id(R.id.createProfile_profilePic).image(profile.response.image_uri);
+        Picasso.with(this).load(profile.response.image_uri).placeholder(R.drawable.human_place_holder).into(imageView);
+		//aq.id(R.id.createProfile_profilePic).image(profile.response.image_uri);
 		aq.id(R.id.name)
 				.text(profile.response.name + ", " + profile.response.age)
 				.typeface(regularFont);

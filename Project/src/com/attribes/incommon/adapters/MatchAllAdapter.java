@@ -99,7 +99,8 @@ public class MatchAllAdapter extends BaseAdapter{
 		viewHolder.userNameText.setText(matchesAllResponseList.get(position).name+", "+matchesAllResponseList.get(position).age);
 		if(!(matchesAllResponseList.get(position).image_uri.isEmpty())){
 			
-			Picasso.with(context).load(matchesAllResponseList.get(position).image_uri).into(viewHolder.userImage);
+			Picasso.with(context).load(matchesAllResponseList.get(position).image_uri).placeholder(R.drawable.human_place_holder).
+                    into(viewHolder.userImage);
 			
 		}
 		

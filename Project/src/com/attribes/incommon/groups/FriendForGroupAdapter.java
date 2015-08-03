@@ -13,6 +13,7 @@ import com.attribes.incommon.R;
 import com.attribes.incommon.interfaces.OnOpponentSelectedListener;
 import com.attribes.incommon.models.FriendAllResponse.Response;
 import com.attribes.incommon.util.GroupChatList;
+import com.attribes.incommon.views.CustomTextView;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -60,7 +61,7 @@ public class FriendForGroupAdapter extends BaseAdapter{
 			
 			viewHolder = new ViewHolder();
 			viewHolder.imageView = (CircularImageView) convertView.findViewById(R.id.group_friend_image);
-			viewHolder.textView = (TextView) convertView.findViewById(R.id.group_friend_name);
+			viewHolder.textView = (CustomTextView) convertView.findViewById(R.id.group_friend_name);
 		    viewHolder.checkBox = (CheckBox)convertView.findViewById(R.id.group_friend_checkBox);
 
             viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -94,7 +95,7 @@ public class FriendForGroupAdapter extends BaseAdapter{
 		}
 
 
-        Picasso.with(mActivity).load(friendList.get(position).image_uri).into(viewHolder.imageView);
+        Picasso.with(mActivity).load(friendList.get(position).image_uri).placeholder(R.drawable.human_place_holder).into(viewHolder.imageView);
         viewHolder.textView.setText(friendList.get(position).name);
 
 
@@ -103,7 +104,7 @@ public class FriendForGroupAdapter extends BaseAdapter{
 	
 	private static class ViewHolder{
 		CircularImageView imageView;
-		TextView textView;
+		CustomTextView textView;
         CheckBox checkBox;
 		
 	}

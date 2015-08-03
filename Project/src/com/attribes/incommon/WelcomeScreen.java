@@ -131,8 +131,9 @@ public class WelcomeScreen extends BaseActivity implements GPSLocationListener {
 		if(requestCode == 200){
 			
 			boolean statusOfGPS = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            boolean statusOfNetwork=manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 			locationManager.isLocationServiceEnabled();
-			 if(statusOfGPS){
+			 if(statusOfGPS || statusOfNetwork){
 				 locationManager.getLocation();
 				 progressDialog = ProgressDialog.show(WelcomeScreen.this, "Getting Location", "Please wait this may take a while", true);
 				

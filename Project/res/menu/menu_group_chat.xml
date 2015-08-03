@@ -5,7 +5,8 @@
           android:title="Rename"/>
 
     <item android:id="@+id/action_group_detail"
-          android:title="Edit"/>
+          android:title="Edit"
+          />
 
     <item android:id="@+id/action_group_delete"
           android:title="Delete"/>

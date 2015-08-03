@@ -4,6 +4,10 @@ public class Constants {
 
     public static final String EXTRA_QBDIALOG = "qbdialog";
     public static final String EXTRA_QBUSERS = "qbUsers";
+    public static final String EXTRA_WELCOME_MESSAGE = "welcomeMessage";
+    public static final String EXTRA_QBDIALOG_USERNAMES = "qbDialogUsers";
+    public static final String EXTRA_GROUP_OPPONENT_IDS = "groupChatOpponentIds";
+    public static final String QBSESSION = "QBSessionFlag";
     public static String FLURRY_KEY = "BF3RF9TVFSN3YN643CHR";
 	public static String IS_EDIT = "edit_mode";
 	public static final String PROJECT_NUMBER = "136458693581";

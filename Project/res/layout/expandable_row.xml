@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/createGroup_imageParent"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="40dp"
+    android:orientation="horizontal"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp"
+    android:layout_below="@+id/createGroup_participants"
+    android:visibility="gone"
+
+        >
+
+<com.devsmart.android.ui.HorizontalListView
+        android:id="@+id/createGroup_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentBottom="true" android:layout_toRightOf="@+id/createGroup_imageParent"
+        android:layout_toEndOf="@+id/createGroup_imageParent"
+        />
+</LinearLayout>

@@ -78,7 +78,6 @@ import com.parse.ParseUser;
 import com.quickblox.chat.QBPrivateChat;
 import com.quickblox.chat.exception.QBChatException;
 import com.quickblox.chat.model.QBChatMessage;
-import com.quickblox.chat.model.QBMessage;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -962,10 +961,10 @@ public class BaseActivity extends ActionBarActivity implements MessageListener{
 		
 	}
 
-	public void showMessage(QBMessage message){
-		//TDOO: this shouldn't be here find appropriate place for it
-		//TO do nothing wait for over ride
-	}
+//	public void showMessage(QBMessage message){
+//		//TDOO: this shouldn't be here find appropriate place for it
+//		//TO do nothing wait for over ride
+//	}
 	
 	@Override
 	public void chatDidReceiveMessage(QBPrivateChat sender,

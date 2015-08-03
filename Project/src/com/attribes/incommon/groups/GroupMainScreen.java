@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.androidquery.AQuery;
 import com.attribes.incommon.BaseActivity;
+import com.attribes.incommon.ChatHandler;
 import com.attribes.incommon.DrawerScreen;
 import com.attribes.incommon.R;
 import com.attribes.incommon.adapters.MessageAdapter;
@@ -94,8 +95,14 @@ public class GroupMainScreen extends DrawerScreen implements ListView.OnItemClic
         progressBar =(ProgressBar)findViewById(R.id.groupMainScreen_progress);
         progressBar.setVisibility(View.VISIBLE);
         QBRequestGetBuilder requestBuilder = new QBRequestGetBuilder();
-        requestBuilder.setPagesLimit(100);
-        requestBuilder.sortDesc("last_message_date_sent");
+        requestBuilder.setPagesLimit(300);
+        requestBuilder.sortDesc("created_at");
+        //requestBuilder.addRule("count", "count", "1");
+
+        if(!QBChatService.isInitialized()){
+
+            ChatHandler.getInstance().initializeChat();
+        }
 
         QBChatService.getChatDialogs(QBDialogType.GROUP, requestBuilder,
                 new QBEntityCallbackImpl<ArrayList<QBDialog>>() {
@@ -104,7 +111,7 @@ public class GroupMainScreen extends DrawerScreen implements ListView.OnItemClic
                                           Bundle args) {
 
                         dialogList = dialogs;
-                        updateUI(dialogList);
+                            updateUI(dialogList);
                     }
 
                     @Override

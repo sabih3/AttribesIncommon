@@ -9,9 +9,8 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.ViewGroup;
+import android.view.*;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.attribes.incommon.R;
@@ -20,6 +19,7 @@ import com.attribes.incommon.models.FriendAllResponse;
 import com.attribes.incommon.network.RestClient;
 import com.attribes.incommon.util.Constants;
 import com.attribes.incommon.util.UserDevicePreferences;
+import com.attribes.incommon.views.CustomTextView;
 import com.quickblox.chat.model.QBDialog;
 import com.quickblox.core.QBEntityCallbackImpl;
 import com.quickblox.core.request.QBPagedRequestBuilder;
@@ -42,15 +42,18 @@ public class GroupDetailScreen extends ActionBarActivity implements GroupPartici
     private ListView friendListView;
     private GroupParticipantsAdapter adapter;
     private ArrayList<QBUser> QBUsersList;
-    private TextView textViewParticpants;
-    private TextView textViewParticipantCount;
+    private CustomTextView textViewParticpants;
+    private CustomTextView textViewParticipantCount;
     private ArrayList<Integer> participantAddList;
     private ArrayList<Integer> participantRemoveList;
+    private ArrayList<QBUser> participantAddedNames;
+    private ArrayList<String> participantRemovedNames;
     private Menu mMenu;
     private GroupChatManagerImpl groupChatManager;
     private ViewGroup actionBarLayout;
     private ActionBar actionBar;
     private TextView actionBarTitle;
+    private ImageView actionBarBack;
     private String groupName;
     private ProgressDialog progressDialog;
     private ArrayList<QBUser> qbUser;
@@ -71,11 +74,12 @@ public class GroupDetailScreen extends ActionBarActivity implements GroupPartici
         qbDialog = (QBDialog) getIntent().getExtras().getSerializable(Constants.EXTRA_QBDIALOG);
         QBUsersList = (ArrayList<QBUser>) getIntent().getExtras().getSerializable(Constants.EXTRA_QBUSERS);
         friendListView = (ListView)findViewById(R.id.group_detail_list);
-        textViewParticpants = (TextView)findViewById(R.id.group_detail_participantNames);
-        textViewParticipantCount = (TextView)findViewById(R.id.group_detail_participantCount);
+        textViewParticpants = (CustomTextView)findViewById(R.id.group_detail_participantNames);
+        textViewParticipantCount = (CustomTextView)findViewById(R.id.group_detail_participantCount);
         friendList = new ArrayList<>();
         groupChatManager=new GroupChatManagerImpl(this);
         groupChatManager.setGroupDialogUpdateListener(this);
+
         populateOccupantDetails(QBUsersList);
 
 
@@ -91,6 +95,7 @@ public class GroupDetailScreen extends ActionBarActivity implements GroupPartici
 
         actionBar = getActionBar();
         actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_solid_background));
+        //actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);
@@ -111,7 +116,16 @@ public class GroupDetailScreen extends ActionBarActivity implements GroupPartici
 
 
             actionBarTitle.setTextColor(getResources().getColor(R.color.actionBar));
+            actionBarBack = (ImageView)findViewById(R.id.actionBarChat_back);
+            actionBarBack.setOnClickListener(new View.OnClickListener() {
 
+                @Override
+                public void onClick(View view) {
+                    showGroupChatScreen();
+                    GroupDetailScreen.this.finish();
+
+                }
+            });
         }
 
     }
@@ -126,12 +140,21 @@ public class GroupDetailScreen extends ActionBarActivity implements GroupPartici
         String names = "";
         ArrayList<String> namesList=new ArrayList<>();
 
-        for(QBUser user: qbUsersList){
-            namesList.add(user.getFullName());
+
+        try {
+            for(QBUser user: qbUsersList){
+                namesList.add(user.getFullName());
+            }
+
+            textViewParticpants.setText(TextUtils.join(", ", namesList));
+            textViewParticipantCount.setText(Integer.toString(qbDialog.getOccupants().size()) + " participants");
+        }
+        catch (NullPointerException e){
+            textViewParticpants.setText("Unable to get participants info this time");
         }
 
-        textViewParticpants.setText(TextUtils.join(", ", namesList));
-        textViewParticipantCount.setText(Integer.toString(qbDialog.getOccupants().size()) + " participants");
+
+
 
     }
 
@@ -172,6 +195,7 @@ public class GroupDetailScreen extends ActionBarActivity implements GroupPartici
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id ==  R.id.group_detail_done){
+
             updateGroupChatDialog(qbDialog);
         }
 
@@ -180,10 +204,13 @@ public class GroupDetailScreen extends ActionBarActivity implements GroupPartici
 
     private void updateGroupChatDialog(QBDialog qbDialog) {
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Group dialog update");
-        progressDialog.setMessage("updating occupants");
-        progressDialog.show();
+//        progressDialog = new ProgressDialog(this);
+//        progressDialog.setTitle("Group dialog update");
+//        progressDialog.setMessage("updating occupants");
+//        progressDialog.show();
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
         groupChatManager.updateGroupChatOccupants(qbDialog,participantAddList,participantRemoveList,new QBEntityCallbackImpl(){
             @Override
             public void onSuccess(){
@@ -196,31 +223,64 @@ public class GroupDetailScreen extends ActionBarActivity implements GroupPartici
     }
 
     @Override
-    public void OnParticipantChange(ArrayList<Integer> participantAddList, ArrayList<Integer> participantRemoveList) {
+    public void OnParticipantChange(ArrayList<Integer> participantAddList, ArrayList<Integer> participantRemoveList,
+                                    QBUser participantAddedNames, QBUser participantRemovedNames) {
+
+
 
         this.participantAddList = participantAddList;
         this.participantRemoveList = participantRemoveList;
 
+        if(participantAddedNames != null){
+
+            QBUsersList.add(participantAddedNames);
+
+        }
+
+        if(participantRemovedNames !=null){
+            ArrayList<QBUser> tempList = new ArrayList<QBUser>(QBUsersList);
+
+
+            tempList = (ArrayList<QBUser>) QBUsersList.clone();
+            for(QBUser userIterator: QBUsersList){
+                if(userIterator.getId().equals(participantRemovedNames.getId())){
+                    tempList.remove(userIterator);
+                }
+
+            }
+            QBUsersList = tempList;
+        }
+
+
+
+        populateOccupantDetails(QBUsersList);
+        textViewParticipantCount.setText(Integer.toString(QBUsersList.size()) + " participants");
         mMenu.findItem(R.id.group_detail_done).setEnabled(true);
 
     }
 
     @Override
     public void onBackPressed() {
+        showGroupChatScreen();
+        this.finish();
+    }
+
+    private void showGroupChatScreen() {
         Intent intent = new Intent(this,GroupChatScreen.class);
         intent.putExtra(Constants.EXTRA_QBDIALOG, qbDialog);
         startActivity(intent);
         overridePendingTransition(R.anim.anim_right_in, R.anim.anim_right_out);
-        this.finish();
     }
 
     @Override
     public void OnGroupDialogUpdated(QBDialog updatedDialog) {
 
         qbDialog = updatedDialog;
-        qbDialog.getOccupants();
+        showGroupChatScreen();
+        this.finish();
+        //qbDialog.getOccupants();
 
-        fetchUsersByIds(qbDialog.getOccupants());
+        //fetchUsersByIds(qbDialog.getOccupants());
 
     }
 
@@ -229,8 +289,8 @@ public class GroupDetailScreen extends ActionBarActivity implements GroupPartici
         QBPagedRequestBuilder requestBuilder = new QBPagedRequestBuilder();
         requestBuilder.setPage(1);
         requestBuilder.setPerPage(userIds.size());
-        requestBuilder.addParameter("sort_desc", "last_message_date_sent");
-        //
+        //requestBuilder.addParameter("sort_desc", "last_message_date_sent");
+
         QBUsers.getUsersByIDs(userIds, requestBuilder,
                 new QBEntityCallbackImpl<ArrayList<QBUser>>() {
                     @Override
@@ -238,8 +298,8 @@ public class GroupDetailScreen extends ActionBarActivity implements GroupPartici
 
                         // Save users
                         //
-                        qbUser = users;
-                        for (QBUser QBUser : qbUser) {
+                        QBUsersList = users;
+                        for (QBUser QBUser : users) {
                             occupantNameList.add(QBUser.getFullName());
                         }
                         occupantNames = TextUtils.join(", ", occupantNameList);

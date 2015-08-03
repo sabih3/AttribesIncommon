@@ -49,7 +49,8 @@ public class HorizontalListAdapter extends BaseAdapter{
 
 
         CircularImageView imageView= (CircularImageView) convertView.findViewById(R.id.createGroup_image);
-        Picasso.with(mContext).load(imageUrlList.get(position)).into(imageView);
+        Picasso.with(mContext).load(imageUrlList.get(position)).placeholder(R.drawable.human_place_holder)
+                .into(imageView);
 
         return convertView;
     }

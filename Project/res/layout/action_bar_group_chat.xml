@@ -4,36 +4,60 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/ab_solid_background"
                 android:orientation="vertical"
+
+
         >
-    <LinearLayout
+    <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp">
+            android:paddingBottom="10dp"
+            >
 
-        <ImageView
-                   android:id="@+id/actionBarChat_back"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:src="@drawable/ic_action_previous_item"/>
-        <ImageView
+        <FrameLayout
+                     android:id="@+id/frame_back_arrow"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_centerVertical="true">
+            <ImageView
+                    android:id="@+id/actionBarChat_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_up_caret_no_spaces"
+                    android:layout_centerVertical="true"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+                android:id="@+id/frame_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true">
+
+            <ImageView
                 android:id="@+id/actionBarChat_logo"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:contentDescription="app logo"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/logo" />
-        <TextView
+                android:src="@drawable/logo"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@+id/frame_back_arrow"
+                android:layout_toEndOf="@+id/frame_back_arrow"
+                />
+        </FrameLayout>
+
+        <com.attribes.incommon.views.CustomTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.attribes.incommon"
                 android:id="@+id/actionBarChat_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
-                android:text="wet"
+                android:text="Chess Group"
+                android:layout_toRightOf="@+id/frame_logo"
+                android:layout_centerVertical="true"
+                custom:fontName="Mark Simonson - Proxima Nova Regular.ttf"
+                android:textSize="10sp"
                 />
-    </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

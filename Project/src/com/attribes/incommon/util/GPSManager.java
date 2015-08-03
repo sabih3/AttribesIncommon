@@ -76,7 +76,7 @@ public class GPSManager extends Service implements LocationListener {
 		isNetworkEnabled = locationManager
 				.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 		
-		if (isGPSEnabled && isNetworkEnabled) {
+		if (isGPSEnabled || isNetworkEnabled) {
 			
 			locationServicesEnabled = true;
 	

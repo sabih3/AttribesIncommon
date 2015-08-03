@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import com.attribes.incommon.R;
@@ -36,6 +37,7 @@ public class ChooseInterestScreen extends ActionBarActivity implements SearchVie
     private Typeface font_ProxiLight;
     private static OnInterestSelectedListener onInterestSelectedListener;
     private SearchView searchView;
+    private LinearLayout notFoundView;
 
 
     public ChooseInterestScreen() {
@@ -57,6 +59,7 @@ public class ChooseInterestScreen extends ActionBarActivity implements SearchVie
     private void initContents() {
         setActionBarStyling();
         interestLayout= (InterestLayout) findViewById(R.id.chooseInterest_list);
+        notFoundView=(LinearLayout)findViewById(R.id.select_interest_not_found);
         font_ProxiLight=Typeface.createFromAsset(getAssets(),
                 "fonts/"+Constants.FONT_PROXI_LIGHT);
     }
@@ -146,9 +149,20 @@ public class ChooseInterestScreen extends ActionBarActivity implements SearchVie
 
                 for(InterestsModel.Response response : interestList){
 
+
                     if(response.toString().toLowerCase().startsWith(searchQuery)){
                         filteredList.add(response);
                         populateInterest(filteredList);
+                    }
+
+                    if(filteredList.isEmpty()){
+                        notFoundView.setVisibility(View.VISIBLE);
+                        interestLayout.setVisibility(View.GONE);
+
+                    }
+                    else{
+                        notFoundView.setVisibility(View.GONE);
+                        interestLayout.setVisibility(View.VISIBLE);
                     }
                 }
             }

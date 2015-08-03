@@ -33,11 +33,9 @@ import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.QBGroupChatManager;
 import com.quickblox.chat.QBPrivateChat;
 import com.quickblox.chat.exception.QBChatException;
-import com.quickblox.chat.model.QBChatHistoryMessage;
 import com.quickblox.chat.model.QBChatMessage;
 import com.quickblox.chat.model.QBDialog;
 import com.quickblox.chat.model.QBDialogType;
-import com.quickblox.chat.model.QBMessage;
 import com.quickblox.core.QBEntityCallbackImpl;
 import com.quickblox.core.request.QBRequestGetBuilder;
 
@@ -199,15 +197,15 @@ QBChatLoginListener{
 		QBRequestGetBuilder customObjectRequestBuilder = new QBRequestGetBuilder();
 	        customObjectRequestBuilder.setPagesLimit(500);
 
-	        QBChatService.getDialogMessages(dialog, customObjectRequestBuilder, new QBEntityCallbackImpl<ArrayList<QBChatHistoryMessage>>() {
+	        QBChatService.getDialogMessages(dialog, customObjectRequestBuilder, new QBEntityCallbackImpl<ArrayList<QBChatMessage>>() {
 	            
 
 				@Override
-	            public void onSuccess(ArrayList<QBChatHistoryMessage> messages, Bundle args) {
-	                adapter = new ChatAdapter(ChatScreen.this, new ArrayList<QBMessage>(), receipientId);
+	            public void onSuccess(ArrayList<QBChatMessage> messages, Bundle args) {
+	                adapter = new ChatAdapter(ChatScreen.this, new ArrayList<QBChatMessage>(), receipientId);
 	                messagesContainer.setAdapter(adapter);
 
-	                for(QBMessage msg : messages) {
+	                for(QBChatMessage msg : messages) {
 	                    showMessage(msg);
 	                }
 	                
@@ -225,7 +223,7 @@ QBChatLoginListener{
 		
 	}
 
-	public void showMessage(final QBMessage message) {
+	public void showMessage(final QBChatMessage message) {
 		
 		//adapter.add(message);
 
@@ -433,7 +431,7 @@ QBChatLoginListener{
 		            public void onSuccess(QBDialog dialog, Bundle args) {
 						mDialog = dialog;
 						int receipientId = ChatHandler.getInstance().getOpponentIDForPrivateDialog(mDialog);
-						adapter = new ChatAdapter(ChatScreen.this, new ArrayList<QBMessage>(),receipientId);
+						adapter = new ChatAdapter(ChatScreen.this, new ArrayList<QBChatMessage>(),receipientId);
 						
 						initViews(mDialog,receipientId);
 						getUserDetail(opponentQbUserId);

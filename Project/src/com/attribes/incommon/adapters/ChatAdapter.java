@@ -21,11 +21,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.attribes.incommon.R;
+import com.attribes.incommon.chat.core.ChatUtils;
 import com.attribes.incommon.models.MasterUser;
 import com.attribes.incommon.util.Constants;
 import com.mikhaellopez.circularimageview.CircularImageView;
-import com.quickblox.chat.model.QBChatHistoryMessage;
-import com.quickblox.chat.model.QBMessage;
+import com.quickblox.chat.model.QBChatMessage;
 import com.quickblox.core.QBEntityCallbackImpl;
 import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
@@ -36,37 +36,38 @@ public class ChatAdapter extends BaseAdapter {
 	private static final String TIME_FORMAT="HH.mm";
     private static final String DATE_FORMAT = "dd MMM yy h.m a";
     private static final String DATE_HIDE = "01 Jan 70";
-    private final List<QBMessage> chatMessages;
+    private final List<QBChatMessage> chatMessages;
     private Activity context;
     private int opponentID;
     private static QBUser opponentUser;
     private CircularImageView userImage;
     private String response;
     
-    public ChatAdapter(Activity context, List<QBMessage> chatMessages, Integer opponentID) {
+    public ChatAdapter(Activity context, List<QBChatMessage> chatMessages, Integer opponentID) {
         this.context = context;
         this.chatMessages = chatMessages;
         this.opponentID = opponentID;
         getOpponentInfo(opponentID);
+
         
         
     }
 
     private void getOpponentInfo(final Integer opponentID) {
     	
-    	QBUsers.getUser(opponentID, new QBEntityCallbackImpl<QBUser>(){
-			
-			@Override
+    	QBUsers.getUser(opponentID, new QBEntityCallbackImpl<QBUser>() {
+
+            @Override
             public void onSuccess(QBUser qbUser, Bundle bundle) {
-				opponentUser = qbUser;
+                opponentUser = qbUser;
             }
 
             @Override
             public void onError(List<String> strings) {
 
             }
-			
-		});
+
+        });
 		
 	}
 
@@ -80,7 +81,7 @@ public class ChatAdapter extends BaseAdapter {
     }
 
     @Override
-    public QBMessage getItem(int position) {
+    public QBChatMessage getItem(int position) {
         if (chatMessages != null) {
             return chatMessages.get(position);
         } else {
@@ -96,7 +97,7 @@ public class ChatAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        QBMessage chatMessage = getItem(position);
+        QBChatMessage chatMessage = getItem(position);
         LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
@@ -115,19 +116,29 @@ public class ChatAdapter extends BaseAdapter {
         holder.txtMessage.setText(chatMessage.getBody());
         if (chatMessage.getSenderId() != null) {
         	holder.txtInfo.setTypeface(setCustomFont(Constants.FONT_PROXI_LIGHT));
-            holder.txtInfo.setText(getTimeText(chatMessage));
+            holder.txtInfo.setText(ChatUtils.getMessageTime(chatMessage));
         } else {
-            holder.txtInfo.setText(getTimeText(chatMessage));
+            holder.txtInfo.setText(ChatUtils.getMessageTime(chatMessage));
         }
 
         return convertView;
     }
 
-    public void add(QBMessage message) {
+    private String getCurrentTime(QBChatMessage chatMessage) {
+        Date todayDate = new Date();
+        String currentTimeString;
+        SimpleDateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT);
+        currentTimeString = "Today "+timeFormat.format(todayDate);
+
+
+        return currentTimeString;
+    }
+
+    public void add(QBChatMessage message) {
         chatMessages.add(message);
     }
 
-    public void add(List<QBMessage> messages) {
+    public void add(List<QBChatMessage> messages) {
         chatMessages.addAll(messages);
     }
 
@@ -194,61 +205,51 @@ public class ChatAdapter extends BaseAdapter {
         return holder;
     }
 
-    private String getTimeText(QBMessage message) {
-       /* Date date;
-       
-        CharSequence relativeDate = null;
-        if (message instanceof QBChatHistoryMessage){
-            date = new Date(((QBChatHistoryMessage) message).getDateSent() * 1000);
-            
-            relativeDate = DateUtils.getRelativeDateTimeString(context, date.getTime(), DateUtils.SECOND_IN_MILLIS, DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL);
-            
-        }else{
-        	Date dateNow = new Date();
-        	relativeDate = DateUtils.getRelativeDateTimeString(context, dateNow.getTime(), DateUtils.SECOND_IN_MILLIS, DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL);
-        }
-        return relativeDate;
-        */
-    	
+    private String getTimeText(QBChatMessage message) {
+
     	Date date;
         String str = null;
     	 long getRidOfTime = 1000 * 60 * 60 * 24;
-    	 if (message instanceof QBChatHistoryMessage){
-	         date = new Date(((QBChatHistoryMessage) message).getDateSent()*1000);
-	         Date todayDate=new Date();
-	         
-	         Calendar calendarYesterday=Calendar.getInstance();
-	         calendarYesterday.roll(Calendar.DATE, -1);
-	          
-	         if((date.getTime()/getRidOfTime) == (todayDate.getTime()/getRidOfTime)){
-	         	SimpleDateFormat timeFormat=new SimpleDateFormat(TIME_FORMAT);
-	         	str= "Today "+timeFormat.format(date);
-	         	
-	         }
-	
-	         
-	         else if(date.getTime() / getRidOfTime == calendarYesterday.getTimeInMillis()/getRidOfTime){
-	       	  str="yesterday";
-	        }
-	           
-	         else{
-	     	  str = DateFormat.format(DATE_FORMAT, date).toString();
-	           if(str.equals(DATE_HIDE)){
-	           	
-	           	SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-	   			String currentDateandTime = sdf.format(new Date());
-	   			str = currentDateandTime;
-	           }
-	           
-	           }
-    	 }
-    	 
-    	 else{
-    		 
-    		 SimpleDateFormat sdf = new SimpleDateFormat(TIME_FORMAT);
-	   			String currentDateandTime = sdf.format(new Date());
-	   			str ="Today "+ currentDateandTime;
-    	 }
+    	 if (message instanceof QBChatMessage){
+
+             if(((QBChatMessage)message).getDateSent()==0){
+
+                 str=getCurrentTime(message);
+             }
+
+             else{
+                 date = new Date(((QBChatMessage) message).getDateSent()*1000);
+                 Date todayDate=new Date();
+
+                 Calendar calendarYesterday=Calendar.getInstance();
+                 calendarYesterday.roll(Calendar.DATE, -1);
+
+                 if((date.getTime()/getRidOfTime) == (todayDate.getTime()/getRidOfTime)){
+                     SimpleDateFormat timeFormat=new SimpleDateFormat(TIME_FORMAT);
+                     str= "Today "+timeFormat.format(date);
+
+                 }
+
+
+                 else if(date.getTime() / getRidOfTime == calendarYesterday.getTimeInMillis()/getRidOfTime){
+                     str="yesterday";
+                 }
+
+//                 else{
+//                     str = DateFormat.format(DATE_FORMAT, date).toString();
+//                     if(str.equals(DATE_HIDE)){
+//
+//                         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+//                         String currentDateandTime = sdf.format(new Date());
+//                         str = currentDateandTime;
+//                     }
+//
+//                 }
+             }
+
+
+             }
+
            
          return str;
     }

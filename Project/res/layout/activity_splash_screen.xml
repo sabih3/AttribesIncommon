@@ -16,6 +16,48 @@
         android:src="@drawable/splash_incommon"
 
         />
-    
+
+    <LinearLayout
+            android:id="@+id/splash_noInternet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
+            android:layout_marginBottom="50dp"
+            android:gravity="center"
+            android:visibility="gone">
+
+        <ImageView android:layout_width="100dp"
+                   android:layout_height="100dp"
+                   android:src="@drawable/ic_internet_icon"/>
+
+        <com.attribes.incommon.views.CustomTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.attribes.incommon"
+                android:id="@+id/splash_noInternetText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Internet Connection"
+                android:layout_gravity="center_horizontal"
+                custom:fontName="Mark Simonson - Proxima Nova Regular.ttf"
+                android:textColor="@color/lite_grey_text"
+                android:textSize="22sp"
+                />
+        <com.attribes.incommon.views.CustomTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.attribes.incommon"
+                android:id="@+id/splash_noInternetRetryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Tap to retry"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/lite_grey_text"
+                android:textSize="18sp"
+
+                >
+
+        </com.attribes.incommon.views.CustomTextView>
+
+    </LinearLayout>
+
     </FrameLayout>
 

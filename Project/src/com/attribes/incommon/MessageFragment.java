@@ -98,7 +98,7 @@ public class MessageFragment extends Fragment {
 		requestBuilder.setPagesLimit(100);
 		requestBuilder.sortDesc("last_message_date_sent");
 
-		QBChatService.getChatDialogs(QBDialogType.PRIVATE, requestBuilder,
+		QBChatService.getChatDialogs(null, requestBuilder,
 				new QBEntityCallbackImpl<ArrayList<QBDialog>>() {
 					@Override
 					public void onSuccess(ArrayList<QBDialog> dialogs,
@@ -144,8 +144,8 @@ public class MessageFragment extends Fragment {
 		QBPagedRequestBuilder requestBuilder = new QBPagedRequestBuilder();
 		requestBuilder.setPage(1);
 		requestBuilder.setPerPage(userIds.size());
-		requestBuilder.addParameter("sort_desc", "last_message_date_sent");
-		//
+		//requestBuilder.addParameter("sort_desc", "last_message_date_sent");
+
 		QBUsers.getUsersByIDs(userIds, requestBuilder,
 				new QBEntityCallbackImpl<ArrayList<QBUser>>() {
 					@Override

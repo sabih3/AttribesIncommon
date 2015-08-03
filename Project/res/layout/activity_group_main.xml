@@ -15,7 +15,8 @@
         <ListView
                 android:id="@+id/groupMainScreen_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                >
 
         </ListView>
 
@@ -26,18 +27,23 @@
                 android:layout_centerInParent="true"
                 android:visibility="gone"/>
 
-        <TextView
-
+        <com.attribes.incommon.views.CustomTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.attribes.incommon"
                 android:id="@+id/groupMainScreen_greetingText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="143dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:visibility="gone"
                 android:text="You can get started by creating a  new group"
                 android:textSize="26sp"
                 android:gravity="center"
-                android:visibility="gone"
+                android:maxLines="2"
+                custom:fontName="Mark Simonson - Proxima Nova Regular.ttf"
+                android:textColor="#302a2c"
                 />
 
 	    	
@@ -49,6 +55,7 @@
             android:layout_gravity="start"
             android:choiceMode="singleChoice"
             android:background="@color/list_background"
-            android:dividerHeight="1dp" />
+            android:dividerHeight="1dp"
+            />
 
 </android.support.v4.widget.DrawerLayout>

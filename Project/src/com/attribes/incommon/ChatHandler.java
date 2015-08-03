@@ -5,6 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.content.Intent;
+import android.provider.Settings;
+import android.view.WindowManager;
+import android.widget.Toast;
+import com.attribes.incommon.util.GroupChatList;
+import com.attribes.incommon.util.UserDevicePreferences;
 import org.jivesoftware.smack.SmackException.NotConnectedException;
 import org.jivesoftware.smack.SmackException.NotLoggedInException;
 import org.jivesoftware.smack.XMPPException;
@@ -37,20 +43,16 @@ import com.quickblox.users.model.QBUser;
 public class ChatHandler {
 
 	
-	/* Arsi's Account old app with 169 users  */
+
 	private static final String APP_ID = "17894";
 	private static final String AUTH_KEY = "sKqLNKmu8KnfHLO";
 	private static final String AUTH_SECRET = "rcOgH57by6RA6QO";
 	private static final String LOGGEDIN = "You have already logged in chat";
-	
-	/*
-	 * Jen's account
-	 
-	private static final String APP_ID = "21239";
-	private static final String AUTH_KEY = "zJT-KkdUK7-bCmE";
-	private static final String AUTH_SECRET = "jx5QfSxPFKDVtMr";
-	
-	*/
+    private static final String API_END_POINT = "apiincommon.quickblox.com";
+    private static final String CHAT_END_POINT = "chatincommon.quickblox.com";
+    private static final String TURN_SERVER = "turnserver.quickblox.com";
+    private static final String BUCKET = "qb-incommon-s3";
+
 	private static String QbUserLogin;
 	private static String QbUserPassword;
 	private static QBUser currentUser ;
@@ -62,24 +64,37 @@ public class ChatHandler {
 	private static QBChatLoginListener qbChatLoginListener;
 	private Map<Integer, QBUser> dialogsUsers =new HashMap<Integer, QBUser>();
 	private static Context mContext;
-	private Activity mActivity;
+	private static Context appContext;
+    private Activity mActivity;
 	private  QBUser loginUser;
 	
 	private ChatHandler(){
 			
 	}
-	
+
+    public static void init(Context context){
+        appContext = context;
+    }
 	public static ChatHandler getInstance(){
 		
 		if(chatManager == null){
 			chatManager = new ChatHandler();
-				//QBInit();	
 			}
 	
 	return chatManager;
 		
 		
 	}
+
+    public QBChatService initializeChat(){
+        QBChatService qbChatService = null;
+        if(!QBChatService.isInitialized()){
+
+            QBChatService.init(appContext);
+            qbChatService = QBChatService.getInstance();
+        }
+        return qbChatService;
+    }
 	
 	public void createSessionForNewUser(){
 		QBInit();
@@ -110,7 +125,14 @@ public class ChatHandler {
 	}
 	
 	public static void QBInit(){
-		
+        QBSettings.getInstance().setServerApiDomain(API_END_POINT);
+
+        QBSettings.getInstance().setChatServerDomain(CHAT_END_POINT);
+
+        QBSettings.getInstance().setTurnServerDomain(TURN_SERVER);
+
+        QBSettings.getInstance().setContentBucketName(BUCKET);
+
 		QBSettings.getInstance().fastConfigInit(APP_ID, AUTH_KEY, AUTH_SECRET);
 		
 		QBAuth.createSession(new QBEntityCallbackImpl<QBSession>() {
@@ -121,6 +143,7 @@ public class ChatHandler {
 				
 				if(!(qbSessionListener == null)){
 					qbSessionListener.sessionCreated();
+                    GroupChatList.getInstance().setQBSessionFlag(true);
 				}
 					
 				
@@ -129,8 +152,12 @@ public class ChatHandler {
          
 			@Override
             public void onError(List<String> errors) {
-				
+
+//                Intent intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                appContext.startActivity(intent);
                 QBInit();
+
             }
         });
 		
@@ -227,7 +254,7 @@ public class ChatHandler {
 			 @Override
 	    	    public void onSuccess(QBUser user, Bundle args) {
 				 qbUser.setId(user.getId());
-				 loginToChat(qbUser, context);
+				 loginToChat(qbUser);
 			 }
 			 
 			 @Override
@@ -303,11 +330,11 @@ public class ChatHandler {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public void loginToChat(QBUser loginUser, Context context) {
+	public void loginToChat(QBUser loginUser) {
 	
 		final QBUser tempUser = loginUser;
 		if(!QBChatService.isInitialized()){
-			QBChatService.init(context);
+			QBChatService.init(appContext);
 			
 		}
 		chatService = QBChatService.getInstance();
@@ -321,17 +348,7 @@ public class ChatHandler {
 	            public void onSuccess() {
 
 				 	qbChatLoginListener.loggedInQbChatSuccessfully();
-//	                try {
-//	                	if(!(qbSignInListener == null)){
-//	                		
-//	        	    		//qbSignInListener.loggedInQBSuccessfully();	
-//	        	    	}
-//	                	chatService.startAutoSendPresence(Constants.AUTO_PRESENCE_INTERVAL_IN_SECONDS);
-//	                	
-//	                } catch (SmackException.NotLoggedInException e) {
-//	                    e.printStackTrace();
-//	                }
-   
+
 	            }
 
 	            @Override
@@ -339,13 +356,13 @@ public class ChatHandler {
 	            	for(int i = 0; i< errors.size() ; i++){
 	            		if(errors.get(i).equals(LOGGEDIN)){
 	            			
-	            			//qbSignInListener.loggedInQBSuccessfully();
+	            			qbSignInListener.loggedInQBSuccessfully();
 	            		}
 	            		else if(errors.get(i).equals("NoResponseException")){
-	            			//loginToChat(tempUser);
+	            			loginToChat(tempUser);
 	            		}
 	            		else{
-	            			 AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+	            			 AlertDialog.Builder dialog = new AlertDialog.Builder(appContext);
 	    		             dialog.setMessage("Log in chat user failed: " + errors).create().show();
 	            		}
 	            	}

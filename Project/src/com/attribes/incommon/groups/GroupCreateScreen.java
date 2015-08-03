@@ -1,10 +1,12 @@
 package com.attribes.incommon.groups;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import com.androidquery.AQuery;
@@ -17,14 +19,14 @@ import com.attribes.incommon.network.RestClient;
 import com.attribes.incommon.util.Constants;
 import com.attribes.incommon.util.GroupChatList;
 import com.attribes.incommon.util.UserDevicePreferences;
-import com.mikhaellopez.circularimageview.CircularImageView;
-import com.squareup.picasso.Picasso;
+import com.attribes.incommon.views.CustomTextView;
+import com.quickblox.chat.model.QBChatMessage;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import com.devsmart.android.ui.HorizontalListView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GroupCreateScreen extends BaseActivity implements OnItemClickListener,OnOpponentSelectedListener,
 OnInterestSelectedListener{
@@ -34,20 +36,18 @@ OnInterestSelectedListener{
 	private FriendForGroupAdapter adapter;
 	private ListView mFriendList;
 	private TextView participantCountView;
-	private EditText groupNameTextView;
+	private TextView groupNameTextView;
+    private EditText groupNameEditText;
 	private ArrayList<String> groupChatOpponentIds;
-	private CircularImageView friendImage1;
-	private CircularImageView friendImage2;
-	private CircularImageView friendImage3;
-	private CircularImageView friendImage4;
     private TextView selectInterestView;
     private LinearLayout participantImageContainer;
     private ArrayList<FriendAllResponse.Response> opponentSelectedList;
     private ImageView image;
-    private RelativeLayout participantParent;
+    private LinearLayout participantParent;
     private HorizontalListView horizontalListView;
     private ArrayList<String> imageUrlList;
     private HorizontalListAdapter imageAdapter;
+    private ExpandableListView expandableListView;
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +62,11 @@ OnInterestSelectedListener{
 	}
 
     private void initContents() {
-        groupNameTextView = (EditText)findViewById(R.id.createGroup_groupName);
+        groupNameTextView = (CustomTextView)findViewById(R.id.create_group_GroupNameText);
+        groupNameEditText = (EditText)findViewById(R.id.createGroup_groupName);
         selectInterestView = (TextView)findViewById(R.id.createGroup_selectInterest);
         selectInterestView.setOnClickListener(new ChooseInterestClick());
+
 
         mFriendList = (ListView) findViewById(R.id.createGroup_friendsList);
         mFriendList.setOnItemClickListener(this);
@@ -75,7 +77,7 @@ OnInterestSelectedListener{
 
         participantCountView = (TextView) findViewById(R.id.createGroup_participantCount);
 
-        participantParent = (RelativeLayout)findViewById(R.id.createGroup_participantContainer);
+        participantParent = (LinearLayout)findViewById(R.id.createGroup_participantContainer);
         participantImageContainer = (LinearLayout) findViewById(R.id.createGroup_imageParent);
         horizontalListView = (HorizontalListView)findViewById(R.id.createGroup_list);
         horizontalListView.setAdapter(imageAdapter);
@@ -87,6 +89,7 @@ OnInterestSelectedListener{
         chooseInterestScreen.setOnInterestSelectedListener(this);
         opponentSelectedList=new ArrayList<>();
 
+        groupNameTextView.setOnClickListener(new GroupNametTextClickListener());
     }
 
     private void getAllFriends() {
@@ -141,7 +144,7 @@ OnInterestSelectedListener{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id=item.getItemId();
 		if(id==R.id.group_next){
-            if(groupNameTextView.getText().toString().isEmpty()){
+            if(groupNameEditText.getText().toString().isEmpty()){
                 Toast.makeText(this,getResources().getString(R.string.blank_group_name),Toast.LENGTH_SHORT).show();
             }
             else{
@@ -158,10 +161,6 @@ OnInterestSelectedListener{
 			long id) {
 		//mFriendList.setItemChecked(position, true);
 
-		Picasso.with(this).load(friendAllResponseList.get(position).image_uri).into(friendImage1);
-		Picasso.with(this).load(friendAllResponseList.get(position).image_uri).into(friendImage2);
-		Picasso.with(this).load(friendAllResponseList.get(position).image_uri).into(friendImage3);
-		Picasso.with(this).load(friendAllResponseList.get(position).image_uri).into(friendImage4);
 		int checkedItems = mFriendList.getCheckedItemCount();
 		if(checkedItems >=1 ){
 			participantCountView.setVisibility(View.VISIBLE);
@@ -174,16 +173,17 @@ OnInterestSelectedListener{
 	
 	private void showGroupChatScreen(ArrayList<String> groupChatOpponentIds) {
 		ArrayList<Integer>opponentIds = getIntegerOpponentsIds(groupChatOpponentIds);
-		String groupName;
+		String groupName = "" ;
 		Intent intent = new Intent(this, GroupChatScreen.class);
-		if(!(groupNameTextView.getText().toString().isEmpty())){
-			groupName = groupNameTextView.getText().toString();
+		if(!(groupNameEditText.getText().toString().isEmpty())){
+			groupName = groupNameEditText.getText().toString();
 			intent.putExtra(Constants.EXTRA_INTENT_GROUP,groupName);
 		}
 
 		intent.putExtra(Constants.EXTRA_CHAT_MODE,Constants.Mode.GROUP);
-        intent.putIntegerArrayListExtra("groupChatOpponentIds", opponentIds);
-		startActivity(intent);
+        intent.putIntegerArrayListExtra(Constants.EXTRA_GROUP_OPPONENT_IDS, opponentIds);
+		//intent.putExtra(Constants.EXTRA_WELCOME_MESSAGE,"Welcome to "+groupName);
+        startActivity(intent);
         overridePendingTransition(R.anim.anim_left_in,R.anim.anim_right_out);
         finish();
 		
@@ -203,7 +203,7 @@ OnInterestSelectedListener{
     @Override
     public void OnOpponentSelectionChange() {
 
-        participantCountView.setText(Integer.toString(GroupChatList.getInstance().getList().size())+" participant(s)");
+        participantCountView.setText(Integer.toString(GroupChatList.getInstance().getList().size()) + " participant(s)");
     }
 
     @Override
@@ -211,6 +211,24 @@ OnInterestSelectedListener{
 
         imageUrlList.add(friendAllResponseList.get(position).image_uri);
         imageAdapter.notifyDataSetChanged();
+
+        int participantCount = imageUrlList.size();
+        if(participantCount >=1 ){
+            participantCountView.setVisibility(View.VISIBLE);
+            participantCountView.setText(participantCount + " participant(s)");
+            groupChatOpponentIds.add(friendAllResponseList.get(position).qb_id);
+            horizontalListView.setVisibility(View.VISIBLE);
+
+
+//            ArrayList<String> headerList=new ArrayList<>();
+//            HashMap<String,ArrayList<String>> childData=new HashMap<>();
+//            headerList.add("");
+//            childData.put(headerList.get(0), imageUrlList);
+            //expandableListView.setAdapter(new ExpandedListAdapter(GroupCreateScreen.this,headerList,childData));
+            //expandableListView.expandGroup(0);
+        }
+
+
 
 
     }
@@ -222,10 +240,19 @@ OnInterestSelectedListener{
 
         imageUrlList.remove(imageUri);
         imageAdapter.notifyDataSetChanged();
+
+        int participantCount = imageUrlList.size();
+        if(participantCount == 0 ){
+            participantCountView.setVisibility(View.GONE);
+            horizontalListView.setVisibility(View.GONE);
+        }
+        participantCountView.setText(participantCount+" participant(s)");
+
     }
 
     @Override
     public void OnInterestSelected() {
+        selectInterestView.setTextColor(getResources().getColor(R.color.selected_interest_color_group));
         selectInterestView.setText(GroupInterest.GROUP_INTEREST.toString());
     }
 
@@ -239,5 +266,58 @@ OnInterestSelectedListener{
             Intent intent = new Intent(GroupCreateScreen.this, ChooseInterestScreen.class);
             startActivity(intent);
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(!GroupChatList.getInstance().getList().isEmpty()){
+            GroupChatList.getInstance().getList().clear();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    private class GroupNametTextClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View view) {
+            groupNameEditText.setVisibility(View.VISIBLE);
+            groupNameEditText.setTypeface(Typeface.createFromAsset(GroupCreateScreen.this.getAssets(),
+                    "fonts/Mark Simonson - Proxima Nova Regular.ttf"));
+            groupNameTextView.setText("");
+            groupNameEditText.requestFocus();
+            showSoftKeyBoard();
+
+        }
+
+        private void showSoftKeyBoard() {
+            EditText myEditText = (EditText) findViewById(R.id.messageEdit);
+            // Check if no view has focus:
+            View view = GroupCreateScreen.this.getCurrentFocus();
+
+            if (view != null) {
+
+                InputMethodManager imm = (InputMethodManager)getSystemService(
+                        GroupCreateScreen.this.INPUT_METHOD_SERVICE);
+                //imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+
+
+
+            }
+
+
+        }
+
     }
 }

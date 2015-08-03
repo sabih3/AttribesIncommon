@@ -117,9 +117,10 @@ public class FriendRequestAdapter extends BaseAdapter{
 			if(notificationResponse.get(position).action == null && notificationResponse.get(position).is_read.equals("0")){
 				
 				viewHolder.nameAndAgeText.setTextColor(context.getResources().getColor(R.color.orange));
-				viewHolder.nameAndAgeText.setText(notificationResponse.get(position).source_user.name+", "+
-						 notificationResponse.get(position).source_user.age);
-				Picasso.with(context).load(notificationResponse.get(position).source_user.image_uri).into(viewHolder.circularImageView);
+				viewHolder.nameAndAgeText.setText(notificationResponse.get(position).source_user.name + ", " +
+                        notificationResponse.get(position).source_user.age);
+				Picasso.with(context).load(notificationResponse.get(position).source_user.image_uri).placeholder(R.drawable.human_place_holder).
+                        into(viewHolder.circularImageView);
 				viewHolder.notificationStatusText.setText("Friend request");
 				
 				
@@ -157,7 +158,8 @@ public class FriendRequestAdapter extends BaseAdapter{
 				viewHolder.nameAndAgeText.setTextColor(context.getResources().getColor(R.color.black_font));
 				viewHolder.nameAndAgeText.setText(notificationResponse.get(position).source_user.name+", "+
 						 notificationResponse.get(position).source_user.age);
-				Picasso.with(context).load(notificationResponse.get(position).source_user.image_uri).into(viewHolder.circularImageView);
+				Picasso.with(context).load(notificationResponse.get(position).source_user.image_uri).placeholder(R.drawable.human_place_holder)
+                        .into(viewHolder.circularImageView);
 				viewHolder.notificationStatusText.setText("Friend request");
 				
 				
@@ -192,7 +194,8 @@ public class FriendRequestAdapter extends BaseAdapter{
 			
 			if(((notificationResponse.get(position).action != null) && (notificationResponse.get(position).action.equals("1"))) 
 					&& notificationResponse.get(position).is_read.equals("1")){
-				Picasso.with(context).load(notificationResponse.get(position).source_user.image_uri).into(viewHolder.circularImageView);
+				Picasso.with(context).load(notificationResponse.get(position).source_user.image_uri).placeholder(R.drawable.human_place_holder)
+                        .into(viewHolder.circularImageView);
 				viewHolder.nameAndAgeText.setTextColor(context.getResources().getColor(R.color.black_font));
 				viewHolder.acceptImage.setVisibility(ImageView.GONE);
 				viewHolder.rejectImage.setVisibility(ImageView.GONE);
@@ -204,7 +207,8 @@ public class FriendRequestAdapter extends BaseAdapter{
 			
 			if(((notificationResponse.get(position).action != null) && (notificationResponse.get(position).action.equals("0")))
 					&& notificationResponse.get(position).is_read.equals("1")){
-				Picasso.with(context).load(notificationResponse.get(position).source_user.image_uri).into(viewHolder.circularImageView);
+				Picasso.with(context).load(notificationResponse.get(position).source_user.image_uri).placeholder(R.drawable.human_place_holder)
+                        .into(viewHolder.circularImageView);
 				viewHolder.nameAndAgeText.setTextColor(context.getResources().getColor(R.color.black_font));
 				viewHolder.acceptImage.setVisibility(ImageView.GONE);
 				viewHolder.rejectImage.setVisibility(ImageView.GONE);
@@ -249,7 +253,8 @@ public class FriendRequestAdapter extends BaseAdapter{
 			viewHolder.nameAndAgeText.setText(notificationResponse.get(position).source_user.name+", "+
 					notificationResponse.get(position).source_user.age);
 			viewHolder.notificationStatusText.setText(notificationResponse.get(position).source_user.name +" has accepted your friend request ");
-			Picasso.with(context).load(notificationResponse.get(position).source_user.image_uri).into(viewHolder.circularImageView);
+			Picasso.with(context).load(notificationResponse.get(position).source_user.image_uri).placeholder(R.drawable.human_place_holder)
+                    .into(viewHolder.circularImageView);
 			
 			viewHolder.nameAndAgeText.setOnClickListener(new View.OnClickListener() {
 				
@@ -287,7 +292,8 @@ public class FriendRequestAdapter extends BaseAdapter{
 		viewHolder.nameAndAgeText.setText(notificationResponse.get(position).source_user.name+", "+
 				notificationResponse.get(position).source_user.age);
 		viewHolder.notificationStatusText.setText(notificationResponse.get(position).source_user.name +" has liked you");
-		Picasso.with(context).load(notificationResponse.get(position).source_user.image_uri).into(viewHolder.circularImageView);
+		Picasso.with(context).load(notificationResponse.get(position).source_user.image_uri).placeholder(R.drawable.human_place_holder)
+                .into(viewHolder.circularImageView);
 		
 		viewHolder.nameAndAgeText.setOnClickListener(new View.OnClickListener() {
 			

@@ -23,11 +23,13 @@ import com.androidquery.callback.AjaxStatus;
 import com.attribes.incommon.ChatHandler;
 import com.attribes.incommon.ChatScreen;
 import com.attribes.incommon.R;
+import com.attribes.incommon.groups.GroupChatScreen;
 import com.attribes.incommon.models.MasterUser;
 import com.attribes.incommon.util.Constants;
 import com.attribes.incommon.util.Flurry;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.quickblox.chat.model.QBDialog;
+import com.quickblox.chat.model.QBDialogType;
 import com.squareup.picasso.Picasso;
 
 public class MessageAdapter extends BaseAdapter{
@@ -90,7 +92,7 @@ public class MessageAdapter extends BaseAdapter{
 		viewHolder.lastMessageView.setText(mDialogs.get(position).getLastMessage());
 		viewHolder.lastMessageDateView.setText(getTimeText(mDialogs.get(position).getLastMessageDateSent()));
 		
-		if(user != null){
+		if((user != null) && (mDialogs.get(position).getType().equals(QBDialogType.PRIVATE))){
 			opponentUserName = user.getFullName() == null ? user.getLogin(): user.getFullName();
 			viewHolder.userNameView.setText(opponentUserName);		
 			if(mDialogs.get(position).getUnreadMessageCount() != 0){
@@ -100,20 +102,29 @@ public class MessageAdapter extends BaseAdapter{
 			else{
 				viewHolder.userNameView.setTextColor(mContext.getResources().getColor(R.color.black_font));
 			}
-			if(!(user.getCustomData() == null)){
-				Picasso.with(mContext).load(user.getCustomData()).placeholder(R.drawable.placeholder).into(viewHolder.userImage);
+			if(!(user.getCustomData() == null) && mDialogs.get(position).getType()==QBDialogType.PRIVATE){
+				Picasso.with(mContext).load(user.getCustomData()).
+                        placeholder(R.drawable.human_place_holder).into(viewHolder.userImage);
 				
 			}
 		}
+        if(mDialogs.get(position).getType()== QBDialogType.GROUP){
+            Picasso.with(mContext).load(R.drawable.groups_placeholder).into(viewHolder.userImage);
+            viewHolder.userNameView.setText(mDialogs.get(position).getName());
+        }
 		
 		convertView.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View view) {
-				if(opponentID!=null && user!=null){
+				if((mDialogs.get(position).getType()==QBDialogType.PRIVATE) && (opponentID!=null && user!=null)){
 					showChatScreen(opponentID,user.getFullName() == null ? user.getLogin(): user.getFullName(),
 							ChatHandler.getInstance().getOpponentIDForPrivateDialog(mDialogs.get(position)));	
 				}
+
+                if(mDialogs.get(position).getType()== QBDialogType.GROUP){
+                    showGroupChatScreen(mDialogs.get(position));
+                }
 				
 				Flurry.getInstance().eventMessageRead();
 			}
@@ -122,6 +133,15 @@ public class MessageAdapter extends BaseAdapter{
 		});
 		return convertView;
 	}
+
+    private void showGroupChatScreen(QBDialog qbDialog) {
+
+        Intent intent = new Intent(mContext,GroupChatScreen.class);
+
+        intent.putExtra(Constants.EXTRA_QBDIALOG, qbDialog);
+        mContext.startActivity(intent);
+        //overridePendingTransition(R.anim.anim_left_in, R.anim.anim_right_in);
+    }
 
 	private ViewHolder createViewHolder(View convertView) {
 		ViewHolder viewHolder = new ViewHolder();

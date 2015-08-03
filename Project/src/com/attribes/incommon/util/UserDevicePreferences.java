@@ -48,4 +48,20 @@ public class UserDevicePreferences {
         return qbUserId;
     }
 
+    public void setQBSessionFlag(Boolean sessionStatus){
+        SharedPreferences.Editor editor = mPrefs.edit();
+
+        editor.putBoolean(Constants.QBSESSION,true);
+        editor.commit();
+    }
+
+    public boolean getQBSessionFlag(){
+
+        boolean QBSessionFlag = mPrefs.getBoolean(Constants.QBSESSION, false);
+
+
+        return  QBSessionFlag;
+
+    }
+
 }

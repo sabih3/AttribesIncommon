@@ -9,12 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.attribes.incommon.R;
+import com.attribes.incommon.chat.core.ChatUtils;
 import com.attribes.incommon.models.MasterUser;
 import com.attribes.incommon.util.Constants;
 import com.mikhaellopez.circularimageview.CircularImageView;
-import com.quickblox.chat.model.QBChatHistoryMessage;
 import com.quickblox.chat.model.QBChatMessage;
-import com.quickblox.chat.model.QBMessage;
 import com.squareup.picasso.Picasso;
 
 import java.net.URLDecoder;
@@ -31,12 +30,12 @@ public class GroupChatAdapter extends BaseAdapter{
     private static final String TIME_FORMAT="HH.mm";
     private static final String DATE_FORMAT = "dd MMM yy h.m a";
     private static final String DATE_HIDE = "01 Jan 70";
-    private QBMessage chatMessage;
+    private QBChatMessage chatMessage;
 
     private Context mContext;
-    private ArrayList<QBMessage> messageList;
+    private ArrayList<QBChatMessage> messageList;
 
-    public GroupChatAdapter(Context context, ArrayList<QBMessage> qbMessagesList) {
+    public GroupChatAdapter(Context context, ArrayList<QBChatMessage> qbMessagesList) {
         this.mContext = context;
         this.messageList = qbMessagesList;
     }
@@ -47,7 +46,7 @@ public class GroupChatAdapter extends BaseAdapter{
     }
 
     @Override
-    public QBMessage getItem(int position) {
+    public QBChatMessage getItem(int position) {
         return messageList.get(position);
     }
 
@@ -81,21 +80,21 @@ public class GroupChatAdapter extends BaseAdapter{
 
         if (chatMessage.getSenderId() != null) {
             holder.txtInfo.setTypeface(setCustomFont(Constants.FONT_PROXI_LIGHT));
-            holder.txtInfo.setText(getTimeText(chatMessage));
+            holder.txtInfo.setText(ChatUtils.getMessageTime(chatMessage));
         } else {
-            holder.txtInfo.setText(getTimeText(chatMessage));
+            holder.txtInfo.setText(ChatUtils.getMessageTime(chatMessage));
         }
 
         return convertView;
     }
 
-    private String getTimeText(QBMessage message) {
+    private String getTimeText(QBChatMessage message) {
 
         Date date;
         String str = null;
         long getRidOfTime = 1000 * 60 * 60 * 24;
-        if (message instanceof QBChatHistoryMessage){
-            date = new Date(((QBChatHistoryMessage) message).getDateSent()*1000);
+        if (message instanceof QBChatMessage){
+            date = new Date(((QBChatMessage) message).getDateSent()*1000);
             Date todayDate=new Date();
 
             Calendar calendarYesterday=Calendar.getInstance();
@@ -142,16 +141,22 @@ public class GroupChatAdapter extends BaseAdapter{
             holder.txtMessage.setTypeface(setCustomFont(Constants.FONT_PROXI_REGULAR));
             holder.txtMessage.setTextSize(14);
             holder.userImage.setVisibility(ImageView.VISIBLE);
-            holder.txtInfo.setTextSize(14);
+            //holder.txtInfo.setTextSize(14);
             holder.senderName.setVisibility(View.VISIBLE);
-            holder.senderName.setText(chatMessage.getProperty("name"));
+            try {
+                holder.senderName.setText(chatMessage.getProperty("name").toString());
+            }
+            catch (NullPointerException e){
+
+            }
+
             loadOpponentImage(holder.userImage);
 
-            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT,
-                    android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
-
-            params.leftMargin = 80;
-            holder.txtInfo.setLayoutParams(params);
+//            RelativeLayout.LayoutParams params=new RelativeLayout.LayoutParams(android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT,
+//                    android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
+//
+//            params.leftMargin = 80;
+//            holder.txtInfo.setLayoutParams(params);
 
 
 
@@ -162,23 +167,19 @@ public class GroupChatAdapter extends BaseAdapter{
             holder.txtMessage.setTextColor(mContext.getResources().getColor(R.color.white));
             holder.txtMessage.setTypeface(setCustomFont(Constants.FONT_PROXI_REGULAR));
             holder.txtMessage.setTextSize(14);
-            holder.txtInfo.setTextSize(14);
+            //holder.txtInfo.setTextSize(14);
             holder.senderName.setVisibility(View.GONE);
 
-//            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT,
-//                    android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
-//
-//
-//            params.leftMargin=40;
-//
-//            holder.txtInfo.setLayoutParams(params);
 
         }
     }
 
     private void loadOpponentImage(CircularImageView userImage) {
-        String decodedImageUrl = URLDecoder.decode(chatMessage.getProperty("image_url"));
-        Picasso.with(mContext).load(decodedImageUrl).into(userImage);
+        if(chatMessage.getProperty("image_url")!=null){
+            String decodedImageUrl = URLDecoder.decode(chatMessage.getProperty("image_url").toString());
+            Picasso.with(mContext).load(decodedImageUrl).into(userImage);
+        }
+
     }
 
     private Typeface setCustomFont(String fontName) {
@@ -189,13 +190,6 @@ public class GroupChatAdapter extends BaseAdapter{
 
     private ViewHolder createViewHolder(View v) {
         ViewHolder holder = new ViewHolder();
-//        holder.content = (RelativeLayout) v.findViewById(R.id.groupChatMessage_content);
-//        holder.messageContent =(RelativeLayout) v.findViewById(R.id.groupChatMessage_messageContent);
-//        holder.userImage =(CircularImageView) v.findViewById(R.id.groupChatMessage_userImage);
-//        holder.txtMessage =(TextView) v.findViewById(R.id.groupChatMessage_message);
-//        holder.txtInfo =(TextView) v.findViewById(R.id.groupChatMessage_messageInfo);
-//        holder.senderName=(TextView)v.findViewById(R.id.groupChatMessage_senderName);
-
         holder.content = (LinearLayout) v.findViewById(R.id.groupChatMessage_content);
         holder.messageContent =(LinearLayout) v.findViewById(R.id.groupChatMessage_messageContent);
         holder.userImage =(CircularImageView) v.findViewById(R.id.groupChatMessage_userImage);
@@ -206,7 +200,7 @@ public class GroupChatAdapter extends BaseAdapter{
 
     }
 
-    public void add(QBMessage chatMessage) {
+    public void add(QBChatMessage chatMessage) {
 
         messageList.add(chatMessage);
 
@@ -214,13 +208,6 @@ public class GroupChatAdapter extends BaseAdapter{
 
 
     private static class ViewHolder {
-//        public RelativeLayout content;
-//        public RelativeLayout messageContent;
-//        public CircularImageView userImage;
-//        public TextView txtMessage;
-//        public TextView txtInfo;
-//        public TextView senderName;
-
         public LinearLayout content;
         public LinearLayout messageContent;
         public CircularImageView userImage;

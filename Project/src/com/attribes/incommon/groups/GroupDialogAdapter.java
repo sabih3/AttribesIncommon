@@ -10,7 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.attribes.incommon.R;
 import com.attribes.incommon.util.Constants;
-import com.mikhaellopez.circularimageview.CircularImageView;
+import com.attribes.incommon.views.CustomTextView;
 import com.quickblox.chat.model.QBDialog;
 
 import java.text.SimpleDateFormat;
@@ -57,7 +57,7 @@ public class GroupDialogAdapter extends BaseAdapter{
 
         if(convertView == null){
 
-            convertView = layout.inflate(R.layout.list_item_messages, null);
+            convertView = layout.inflate(R.layout.list_item_dialog_group, null);
             viewHolder = createViewHolder(convertView);
             convertView.setTag(viewHolder);
         }
@@ -67,9 +67,16 @@ public class GroupDialogAdapter extends BaseAdapter{
 
         }
 
-        viewHolder.userNameView.setText(dialogsList.get(position).getName());
+        if(dialogsList.get(position).getName().length()>=25){
+
+            viewHolder.groupNameView.setText(dialogsList.get(position).getName().substring(0,28)+" ...");
+        }
+        else{
+            viewHolder.groupNameView.setText(dialogsList.get(position).getName());
+        }
+
         //viewHolder.lastMessageView.setText(dialogsList.get(position).getLastMessage());
-        viewHolder.lastMessageDateView.setText(getTimeText(dialogsList.get(position).getLastMessageDateSent()));
+        viewHolder.participantCountView.setText((Integer.toString(dialogsList.get(position).getOccupants().size())) + " participants");
 
         return convertView;
     }
@@ -115,22 +122,21 @@ public class GroupDialogAdapter extends BaseAdapter{
         ViewHolder viewHolder = new ViewHolder();
 
         //viewHolder.userImage = (CircularImageView)convertView.findViewById(R.id.list_item_messages_UserImage);
-        viewHolder.userNameView = (TextView) convertView.findViewById(R.id.list_item_messages_userName);
-        viewHolder.lastMessageView = (TextView) convertView.findViewById(R.id.list_item_message_userMessage);
-        viewHolder.lastMessageDateView = (TextView) convertView.findViewById(R.id.list_item_message_messageDate);
+        viewHolder.groupNameView = (TextView) convertView.findViewById(R.id.dialog_group_name);
 
-        viewHolder.userNameView.setTypeface(setCustomFont(Constants.FONT_PROXI_REGULAR));
-        viewHolder.lastMessageView.setTypeface(setCustomFont(Constants.FONT_PROXI_LIGHT));
-        viewHolder.lastMessageDateView.setTypeface(setCustomFont(Constants.FONT_PROXI_REGULAR));
+        viewHolder.participantCountView = (TextView) convertView.findViewById(R.id.dialog_group_count);
+
+        viewHolder.groupNameView.setTypeface(setCustomFont(Constants.FONT_PROXI_REGULAR));
+
+        viewHolder.participantCountView.setTypeface(setCustomFont(Constants.FONT_PROXI_REGULAR));
         return viewHolder;
 
     }
 
     private class ViewHolder {
        // CircularImageView userImage;
-        TextView userNameView;
-        TextView lastMessageView;
-        TextView lastMessageDateView;
+        TextView groupNameView;
+        TextView participantCountView;
     }
 
     private Typeface setCustomFont(String fontName){

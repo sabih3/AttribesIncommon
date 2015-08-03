@@ -11,6 +11,7 @@ public class GroupChatList {
 
     private static ArrayList<FriendAllResponse.Response> groupChatList;
     private static GroupChatList mInstance;
+    private Boolean QBSessionFlag = false;
 
     private GroupChatList(){
 
@@ -45,7 +46,11 @@ public class GroupChatList {
     }
 
 
+    public Boolean getQBSessionFlag() {
+        return QBSessionFlag;
+    }
 
-
-
+    public void setQBSessionFlag(Boolean QBSessionFlag) {
+        this.QBSessionFlag = QBSessionFlag;
+    }
 }

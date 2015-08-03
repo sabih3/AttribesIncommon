@@ -1,7 +1,5 @@
 package com.attribes.incommon.groups;
 
-import java.io.Serializable;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,10 +8,8 @@ import java.util.List;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -22,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
 import com.attribes.incommon.ChatHandler;
@@ -35,7 +32,6 @@ import com.attribes.incommon.util.GroupChatList;
 import com.attribes.incommon.util.UserDevicePreferences;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.model.*;
-import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.QBEntityCallbackImpl;
 import com.quickblox.core.helper.StringifyArrayList;
 import com.quickblox.core.request.QBPagedRequestBuilder;
@@ -43,8 +39,8 @@ import com.quickblox.core.request.QBRequestGetBuilder;
 import com.quickblox.messages.QBMessages;
 import com.quickblox.messages.model.QBEnvironment;
 import com.quickblox.messages.model.QBEvent;
+import com.quickblox.messages.model.QBNotificationChannel;
 import com.quickblox.messages.model.QBNotificationType;
-import com.quickblox.messages.model.QBPushType;
 import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
 import org.jivesoftware.smack.SmackException;
@@ -61,7 +57,7 @@ public class GroupChatScreen extends ActionBarActivity implements QBChatLoginLis
     private final String PROPERTY_SAVE_TO_HISTORY = "save_to_history";
     private GroupChatManagerImpl groupChatManager;
     private ProgressBar progressBar;
-    private ArrayList<QBChatHistoryMessage> history;
+    private ArrayList<QBChatMessage> history;
     private GroupChatAdapter groupChatAdapter;
     private Bundle extras;
     private TextView participantsTextView;
@@ -77,7 +73,11 @@ public class GroupChatScreen extends ActionBarActivity implements QBChatLoginLis
     private ArrayList<String> occupantNameList;
     private String occupantNames;
     private GroupDialogUpdateListener groupDialogUpdateListener;
-
+    private MenuItem renameOption;
+    private MenuItem deleteOption;
+    private MenuItem editOption;
+    private boolean isGroupOwner;
+    private String welcomeMessage;
 
     public void setOnGroupDialogDeleted(OnGroupDialogDeleted OnGroupDialogDeleted){
         this.OnGroupDialogDeleted = OnGroupDialogDeleted;
@@ -98,11 +98,19 @@ public class GroupChatScreen extends ActionBarActivity implements QBChatLoginLis
 	}
 
     private void initContents() {
-        progressBar=(ProgressBar)findViewById(R.id.group_chat_progressBar);
+        progressBar = (ProgressBar)findViewById(R.id.group_chat_progressBar);
         progressBar.setVisibility(View.VISIBLE);
         groupChatManager = new GroupChatManagerImpl(this);
 
         extras = getIntent().getExtras();
+        qbUser = new ArrayList<>();
+//        if(extras.containsKey(Constants.EXTRA_WELCOME_MESSAGE)){
+//            welcomeMessage = extras.getString(Constants.EXTRA_WELCOME_MESSAGE);
+//        }
+//        else{
+//            welcomeMessage ="";
+//        }
+
         QBDialog = (com.quickblox.chat.model.QBDialog) extras.getSerializable(Constants.EXTRA_QBDIALOG);
         styleActionBar();
         occupantIdsList = new ArrayList<>();
@@ -116,23 +124,25 @@ public class GroupChatScreen extends ActionBarActivity implements QBChatLoginLis
 
         occupantNames = "";
         occupantNameList = new ArrayList<>();
+
+
+
         if(!GroupChatList.getInstance().getList().isEmpty()){
             for(FriendAllResponse.Response iterator: GroupChatList.getInstance().getList()){
 
                 occupantIdsList.add(Integer.parseInt(iterator.qb_id));
-                occupantNameList.add(iterator.name);
+                //occupantNameList.add(iterator.name);
 
             }
+            //fetchUsersByIds((List<Integer>) extras.get(Constants.EXTRA_GROUP_OPPONENT_IDS));
+            //showOccupantNames(occupantNameList);
 
-            occupantNames= TextUtils.join(", ",occupantNameList);
 
-            participantsTextView.setText(getResources().getString(R.string.group_participants) + "\n " + occupantNames);
         }
 
-
-        else{
-            fetchUsersByIds(QBDialog.getOccupants());
-        }
+//        else {
+//            fetchUsersByIds(QBDialog.getOccupants());
+//        }
 
 
         chatService = QBChatService.getInstance();
@@ -147,6 +157,31 @@ public class GroupChatScreen extends ActionBarActivity implements QBChatLoginLis
         ChatHandler.getInstance().addQbChatLoginListener(this);
 
     }
+
+    private void showOccupantNames(ArrayList<String> occupantNameList) {
+        occupantNames = "";
+        ArrayList<String> tempList=new ArrayList<>();
+
+        if(occupantNameList.size() > 5){
+            for(int i = 0 ; i < 5 ; i++){
+
+                tempList.add(occupantNameList.get(i));
+            }
+            occupantNames= TextUtils.join(", ",tempList);
+            participantsTextView.setText(getResources().getString(R.string.group_participants) + "\n " +
+                    occupantNames+" ...");
+        }
+
+        else{
+            occupantNames= TextUtils.join(", ",occupantNameList);
+
+            participantsTextView.setText(getResources().getString(R.string.group_participants) + "\n " + occupantNames);
+        }
+
+        participantsTextView.setOnClickListener(new ParticipantViewClickListener());
+
+    }
+
     public Typeface setCustomFont(String fontName) {
         Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/"+fontName);
 
@@ -193,7 +228,7 @@ public class GroupChatScreen extends ActionBarActivity implements QBChatLoginLis
 
 
                 GroupChatScreen.this.finish();
-                overridePendingTransition(R.anim.anim_right_in,R.anim.anim_right_out);
+                overridePendingTransition(R.anim.anim_right_in, R.anim.anim_right_out);
 
             }
         });
@@ -207,23 +242,16 @@ public class GroupChatScreen extends ActionBarActivity implements QBChatLoginLis
         dialog.setOccupantsIds(occupantIdsList);
 
 
-
         QBChatService.getInstance().getGroupChatManager().createDialog(dialog, new QBEntityCallbackImpl<QBDialog>() {
             @Override
             public void onSuccess(QBDialog dialog, Bundle args) {
+                QBDialog = dialog;
 
                 for (Integer id : dialog.getOccupants()) {
 
                     sendGroupCreationNotification(dialog);
                     //QBChatMessage groupNotificationMessage = createChatNotificationForGroupChatCreation(dialog);
 
-//                    try {
-//                        groupChatManager.sendMessage(groupNotificationMessage);
-//                    } catch (XMPPException e) {
-//                        e.printStackTrace();
-//                    } catch (SmackException.NotConnectedException e) {
-//                        e.printStackTrace();
-//                    }
                 }
                 joinGroupChat(dialog);
 
@@ -241,15 +269,50 @@ public class GroupChatScreen extends ActionBarActivity implements QBChatLoginLis
 
     }
 
+    private void enableMenuOptions(QBDialog dialog) {
+        if(dialog != null ){
+            editOption.setEnabled(true);
+            if(!dialog.getUserId().equals(Integer.parseInt(UserDevicePreferences.getInstance().getQbUserId()))){
+                //You are not an owner of this dialog, so you cant rename it
+                renameOption.setEnabled(false);
+                deleteOption.setTitle("Leave");
+                deleteOption.setEnabled(true);
+                //deleteOption.setEnabled(false);
+            }
+            else{
+                renameOption.setEnabled(true);
+                deleteOption.setEnabled(true);
+            }
+        }
+
+    }
+
     private void joinGroupChat(QBDialog dialog) {
         ((GroupChatManagerImpl) groupChatManager).joinGroupChat(dialog, new QBEntityCallbackImpl() {
 
 
             @Override
             public void onSuccess() {
+//                if(!welcomeMessage.isEmpty()){
+//                    QBChatMessage chatMessage = new QBChatMessage();
+//                    chatMessage.setBody(welcomeMessage);
+//                    chatMessage.setProperty(PROPERTY_SAVE_TO_HISTORY, "1");
+//                    String encodedImageUrlString = URLEncoder.encode(MasterUser.getInstance().getUserImageUri());
+//                    chatMessage.setProperty("image_url",encodedImageUrlString );
+//                    chatMessage.setProperty("name",MasterUser.getInstance().getUserName());
+//                    chatMessage.setProperty("type", "2");
+//
+//                    sendMessage(chatMessage);
+//                }
 
 
+                fetchUsersByIds(dialog.getOccupants());
+
+
+                checkDialogOwner(dialog.getUserId());
+                enableMenuOptions(dialog);
                 loadChatHistory(dialog);
+
             }
 
             @Override
@@ -260,21 +323,31 @@ public class GroupChatScreen extends ActionBarActivity implements QBChatLoginLis
 
     }
 
+    private void checkDialogOwner(Integer userId) {
+        if(userId.equals(Integer.parseInt(UserDevicePreferences.getInstance().getQbUserId()))){
+            isGroupOwner = true;
+        }
+        else{
+            isGroupOwner = false;
+        }
+
+    }
+
     private void loadChatHistory(QBDialog dialog) {
 
         QBRequestGetBuilder customObjectRequestBuilder = new QBRequestGetBuilder();
-        customObjectRequestBuilder.setPagesLimit(100);
+        //customObjectRequestBuilder.setPagesLimit(100);
 
-        QBChatService.getDialogMessages(dialog, customObjectRequestBuilder, new QBEntityCallbackImpl<ArrayList<QBChatHistoryMessage>>() {
+        QBChatService.getDialogMessages(dialog, customObjectRequestBuilder, new QBEntityCallbackImpl<ArrayList<QBChatMessage>>() {
             @Override
-            public void onSuccess(ArrayList<QBChatHistoryMessage> messages, Bundle args) {
+            public void onSuccess(ArrayList<QBChatMessage> messages, Bundle args) {
                 progressBar.setVisibility(View.GONE);
                 history = messages;
 
-                groupChatAdapter = new GroupChatAdapter(GroupChatScreen.this, new ArrayList<QBMessage>());
+                groupChatAdapter = new GroupChatAdapter(GroupChatScreen.this, new ArrayList<QBChatMessage>());
                 messagesContainer.setAdapter(groupChatAdapter);
 
-                for (QBMessage msg : messages) {
+                for (QBChatMessage msg : messages) {
                     showMessage(msg);
                 }
 
@@ -284,7 +357,7 @@ public class GroupChatScreen extends ActionBarActivity implements QBChatLoginLis
             @Override
             public void onError(List<String> errors) {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(GroupChatScreen.this);
-                dialog.setMessage("load chat history errors: " + errors).create().show();
+                dialog.setMessage("Problems in getting chat history " + errors).create().show();
             }
         });
     }
@@ -313,7 +386,7 @@ public class GroupChatScreen extends ActionBarActivity implements QBChatLoginLis
 	    String dialogTypeCode = String.valueOf(dialog.getType().ordinal());
 
 	    QBChatMessage chatMessage = new QBChatMessage();
-	    chatMessage.setBody("You have been added to " + getGroupName());
+	    chatMessage.setBody("Welcome to " + getGroupName());
 	 
 	    // Add notification_type=1 to extra params when you created a group chat 
 	    //
@@ -336,14 +409,16 @@ public class GroupChatScreen extends ActionBarActivity implements QBChatLoginLis
 
     public void sendGroupCreationNotification(QBDialog dialog){
         String dialogId = String.valueOf(dialog.getDialogId());
-        String roomJid = dialog.getRoomJid();
+        String dialogName = dialog.getName();
 
         ArrayList<Integer> occupants = new ArrayList<>();
         StringifyArrayList<Integer> stringifyOccupantList=new StringifyArrayList<>();
         String occupantsIds = "";
-        for(int i = 0; i < dialog.getOccupants().size(); i++){
+        int listSize = dialog.getOccupants().size();
 
-            if(dialog.getOccupants().get(i).equals(Integer.parseInt(MasterUser.getInstance().getUserQbId()))){
+        for(int i = 0; i < listSize; i++){
+
+            if (dialog.getOccupants().get(i).equals(Integer.parseInt(MasterUser.getInstance().getUserQbId()))){
                 continue;
             }
             else{
@@ -355,18 +430,20 @@ public class GroupChatScreen extends ActionBarActivity implements QBChatLoginLis
         }
 
 
-        String dialogName = dialog.getName();
-        String dialogTypeCode = String.valueOf(dialog.getType().ordinal());
+
 
         QBEvent event = new QBEvent();
-        event.setUserId(Integer.parseInt(MasterUser.getInstance().getUserQbId()));
+
         event.setUserIds(stringifyOccupantList);
         event.setEnvironment(QBEnvironment.PRODUCTION);
         event.setNotificationType(QBNotificationType.PUSH);
+
         JSONObject json = new JSONObject();
         try {
-            json.put("dialogName", dialogName);
+            json.put("message", "You have been invited to " + dialogName);
+            json.put("ios_sound", "default");
             json.put("dialogId", dialogId);
+            json.put("sabih","sabih");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -386,7 +463,7 @@ public class GroupChatScreen extends ActionBarActivity implements QBChatLoginLis
             }
         });
     }
-	public void showMessage(QBMessage chatMessage) {
+	public void showMessage(QBChatMessage chatMessage) {
 
 
         runOnUiThread(new Runnable() {
@@ -437,22 +514,6 @@ public class GroupChatScreen extends ActionBarActivity implements QBChatLoginLis
         }
 
         else{
-
-//            ArrayList<Integer> allOccupants = dialog.getOccupants();
-//            ArrayList<Integer> occupants=new ArrayList<>();
-//
-//            for(Integer val:allOccupants){
-//
-//                if(val==Integer.parseInt(MasterUser.getInstance().getUserQbId())){
-//                    continue;
-//                }
-//                else{
-//                    occupants.add(val);
-//                }
-//
-//            }
-//
-//            dialog.setOccupantsIds(occupants);
 
             runOnUiThread(new Runnable() {
                 @Override
@@ -515,31 +576,66 @@ public class GroupChatScreen extends ActionBarActivity implements QBChatLoginLis
                 chatMessage.setProperty(PROPERTY_SAVE_TO_HISTORY, "1");
                 String encodedImageUrlString = URLEncoder.encode(MasterUser.getInstance().getUserImageUri());
                 chatMessage.setProperty("image_url",encodedImageUrlString );
-                chatMessage.setProperty("name",MasterUser.getInstance().getUserName());
-                chatMessage.setProperty("type","2");
+                chatMessage.setProperty("name", MasterUser.getInstance().getUserName());
+                chatMessage.setProperty("type", "2");
 
 
 
+                sendMessage(chatMessage);
+                chatText.setText("");
+                messagesContainer.setAdapter(groupChatAdapter);
+                hideKeyBoard(chatMessage);
 
-                try {
-                    groupChatManager.sendMessage(chatMessage);
-                    chatText.setText("");
-                    messagesContainer.setAdapter(groupChatAdapter);
-                    showMessage(chatMessage);
-                } catch (XMPPException e) {
-                    e.printStackTrace();
-                } catch (SmackException.NotConnectedException e) {
-                    e.printStackTrace();
-                }
+
+//                try {
+//                    sendMessage(chatMessage);
+//                    groupChatManager.sendMessage(chatMessage);
+//                    chatText.setText("");
+//                    messagesContainer.setAdapter(groupChatAdapter);
+//                    showMessage(chatMessage);
+//                } catch (XMPPException e) {
+//                    e.printStackTrace();
+//                } catch (SmackException.NotConnectedException e) {
+//                    e.printStackTrace();
+//                }
 
             }
 
+        }
+
+        private void hideKeyBoard(QBChatMessage chatMessage) {
+            EditText myEditText = (EditText) findViewById(R.id.messageEdit);
+            // Check if no view has focus:
+            View view = GroupChatScreen.this.getCurrentFocus();
+            if (view != null) {
+                InputMethodManager imm = (InputMethodManager)getSystemService(
+                        GroupChatScreen.this.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+            }
+
+            showMessage(chatMessage);
+        }
+    }
+
+    private void sendMessage(QBChatMessage chatMessage) {
+        try {
+            groupChatManager.sendMessage(chatMessage);
+        } catch (XMPPException e) {
+            e.printStackTrace();
+        } catch (SmackException.NotConnectedException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public void onBackPressed() {
-        ChatHandler.getInstance().signOut(this);
+        try {
+            groupChatManager.release();
+        } catch (XMPPException e) {
+            e.printStackTrace();
+        }
+        //ChatHandler.getInstance().signOut(this);
 
         super.onBackPressed();
         this.finish();
@@ -555,15 +651,21 @@ public class GroupChatScreen extends ActionBarActivity implements QBChatLoginLis
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_group_chat, menu);
-        MenuItem editOption = menu.findItem(R.id.action_edit);
-        MenuItem deleteOption = menu.findItem(R.id.action_group_delete);
 
-        if(QBDialog !=null ){
-            if(!QBDialog.getUserId().equals(Integer.parseInt(UserDevicePreferences.getInstance().getQbUserId()))){
-                editOption.setEnabled(false);
-                deleteOption.setEnabled(false);
-            }
-        }
+        renameOption = menu.findItem(R.id.action_edit);
+        deleteOption = menu.findItem(R.id.action_group_delete);
+        editOption = menu.findItem(R.id.action_group_detail);
+
+        deleteOption.setEnabled(false);
+        renameOption.setEnabled(false);
+        editOption.setEnabled(false);
+
+//        if(QBDialog != null ){
+//            if(!QBDialog.getUserId().equals(Integer.parseInt(UserDevicePreferences.getInstance().getQbUserId()))){
+//                renameOption.setEnabled(false);
+//                deleteOption.setEnabled(false);
+//            }
+//        }
 
         return true;
     }
@@ -605,18 +707,23 @@ public class GroupChatScreen extends ActionBarActivity implements QBChatLoginLis
 
     private void showGroupDeleteDialog() {
 
-        new AlertDialog.Builder(this)
-                .setTitle("Confirm delete group ?")
-                .setMessage("Are you sure you want to delete "+groupName)
-                .setPositiveButton("Yes", new GroupDeleteConfirmButton())
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+        String deleteString = "delete";
 
-                        dialogInterface.dismiss();
-                    }
-                })
-                .show();
+        if(!isGroupOwner){
+            deleteString = "leave";
+        }
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm " + deleteString + " group ?")
+                .setMessage("Are you sure you want to " + deleteString + " " +groupName+" group?")
+                        .setPositiveButton("Yes", new GroupDeleteConfirmButton())
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .show();
     }
 
     private void showGroupEditDialog() {
@@ -671,8 +778,8 @@ public class GroupChatScreen extends ActionBarActivity implements QBChatLoginLis
         QBPagedRequestBuilder requestBuilder = new QBPagedRequestBuilder();
         requestBuilder.setPage(1);
         requestBuilder.setPerPage(userIds.size());
-        requestBuilder.addParameter("sort_desc", "last_message_date_sent");
-        //
+        //requestBuilder.addParameter("sort_desc", "last_message_date_sent");
+
         QBUsers.getUsersByIDs(userIds, requestBuilder,
                 new QBEntityCallbackImpl<ArrayList<QBUser>>() {
                     @Override
@@ -681,11 +788,14 @@ public class GroupChatScreen extends ActionBarActivity implements QBChatLoginLis
                         // Save users
                         //
                         qbUser = users;
+
                         for(QBUser QBUser : qbUser){
                             occupantNameList.add(QBUser.getFullName());
                         }
-                        occupantNames = TextUtils.join(", ",occupantNameList);
-                        participantsTextView.setText(getResources().getString(R.string.group_participants) + "\n " +occupantNames);
+
+                        showOccupantNames(occupantNameList);
+
+
                     }
 
                     @Override
@@ -731,6 +841,15 @@ public class GroupChatScreen extends ActionBarActivity implements QBChatLoginLis
         public void onClick(View view) {
 
             renamDialog.dismiss();
+        }
+    }
+
+    private class ParticipantViewClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View view) {
+
+            showGroupDetailScreen(QBDialog,qbUser);
         }
     }
 }

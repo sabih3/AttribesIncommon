@@ -8,8 +8,10 @@ import android.widget.*;
 import com.attribes.incommon.R;
 import com.attribes.incommon.models.FriendAllResponse;
 import com.attribes.incommon.util.UserDevicePreferences;
+import com.attribes.incommon.views.CustomTextView;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.quickblox.chat.model.QBDialog;
+import com.quickblox.users.model.QBUser;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -23,6 +25,8 @@ public class GroupParticipantsAdapter extends BaseAdapter {
     private ArrayList<FriendAllResponse.Response> friendList;
     private ArrayList<Integer> participantAddList;
     private ArrayList<Integer> participantRemoveList;
+    private ArrayList<QBUser> participantAddedNames;
+    private ArrayList<String> participantRemovedNames;
     private GroupParticipantChangeListener groupParticipantChangeListener;
     private Context mContext;
     private QBDialog qbDialog;
@@ -40,6 +44,8 @@ public class GroupParticipantsAdapter extends BaseAdapter {
         this.qbDialog = qbDialog;
         participantAddList = new ArrayList<>();
         participantRemoveList = new ArrayList<>();
+        participantAddedNames = new ArrayList<>();
+        participantRemovedNames = new ArrayList<>();
     }
 
     @Override
@@ -68,16 +74,22 @@ public class GroupParticipantsAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.group_detail_list_row, null);
             viewHolder = createViewHolder(convertView);
             setParticipantLogic(position,viewHolder);
+
             viewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
 
 
                 @Override
                 public void onClick(View view) {
-
+                    QBUser qbUser = null;
+                    QBUser removedUser = null;
                     boolean checked = ((CheckBox) view).isChecked();
 
                     if (checked == true) {
                         participantAddList.add(Integer.parseInt(friendList.get(position).qb_id));
+                        qbUser = new QBUser();
+                        qbUser.setId(Integer.parseInt(friendList.get(position).qb_id));
+                        qbUser.setFullName(friendList.get(position).name);
+                        participantAddedNames.add(qbUser);
                     }
 
                     else {
@@ -88,6 +100,9 @@ public class GroupParticipantsAdapter extends BaseAdapter {
                                 ((CheckBox) view).setChecked(false);
                             }
 
+                            removedUser = new QBUser();
+                            removedUser.setId(Integer.parseInt(friendList.get(position).qb_id));
+                            removedUser.setFullName(friendList.get(position).name);
                             participantRemoveList.add(Integer.parseInt(friendList.get(position).qb_id));
 
 //                        else{
@@ -98,7 +113,8 @@ public class GroupParticipantsAdapter extends BaseAdapter {
 //                        }
 
                     }
-                    groupParticipantChangeListener.OnParticipantChange(participantAddList, participantRemoveList);
+                    groupParticipantChangeListener.OnParticipantChange(participantAddList, participantRemoveList,
+                            qbUser,removedUser);
                 }
             });
 
@@ -110,7 +126,7 @@ public class GroupParticipantsAdapter extends BaseAdapter {
 
         }
 
-        Picasso.with(mContext).load(friendList.get(position).image_uri).into(viewHolder.image);
+        Picasso.with(mContext).load(friendList.get(position).image_uri).placeholder(R.drawable.human_place_holder).into(viewHolder.image);
         viewHolder.name.setText(friendList.get(position).name);
 
 
@@ -139,7 +155,7 @@ public class GroupParticipantsAdapter extends BaseAdapter {
     private ViewHolder createViewHolder(View view) {
         ViewHolder viewHolder =new ViewHolder();
         viewHolder.image = (CircularImageView) view.findViewById(R.id.group_detail_list_row_image);
-        viewHolder.name = (TextView) view.findViewById(R.id.group_detail_list_row_name);
+        viewHolder.name = (CustomTextView) view.findViewById(R.id.group_detail_list_row_name);
         viewHolder.checkBox =(CheckBox)view.findViewById(R.id.group_detail_list_row_checkBox);
         return viewHolder;
     }

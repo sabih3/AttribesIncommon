@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import com.attribes.incommon.util.UserDevicePreferences;
+import com.quickblox.core.QBSettings;
 import org.acra.ACRA;
 import org.acra.ReportField;
 import org.acra.ReportingInteractionMode;
@@ -61,7 +62,11 @@ public class AppController extends Application implements
 
 	public static final String TAG = "FB";
 	public static final String NETWORKTAG = "NETWORK";
-	private RequestQueue requestQueue;
+    private static final String API_END_POINT = "https://apiincommon.quickblox.com";
+    private static final String CHAT_END_POINT = "chatincommon.quickblox.com";
+    private static final String TURN_SERVER = "turnserver.quickblox.com";
+    private static final String BUCKET = "qb-incommon-s3";
+    private RequestQueue requestQueue;
 	private static AppController networkInstance;
 	private int resumed;
 	private int stopped;
@@ -76,7 +81,8 @@ public class AppController extends Application implements
 
 		AppController.context = getApplicationContext();
         UserDevicePreferences.getInstance().init(this);
-		apiRequest = new ApiRequest(this);
+		ChatHandler.getInstance().init(this);
+        apiRequest = new ApiRequest(this);
 		registerActivityLifecycleCallbacks(this);
 		if (isUserRegistered()) {
 
@@ -84,7 +90,7 @@ public class AppController extends Application implements
 			MasterUser.getInstance().setUserQbLogin(getQbUserLogin());
 			MasterUser.getInstance().setUserQbPassword(getQbUserPassword());
 		}
-
+        //setQBEndpoints();
 		initParse();
 		initFlurry();
 
@@ -92,7 +98,18 @@ public class AppController extends Application implements
 
 	}
 
-	private void initFlurry() {
+    private void setQBEndpoints() {
+
+        QBSettings.getInstance().setServerApiDomain(API_END_POINT);
+
+        QBSettings.getInstance().setChatServerDomain(CHAT_END_POINT);
+
+        QBSettings.getInstance().setTurnServerDomain(TURN_SERVER);
+
+        QBSettings.getInstance().setContentBucketName(BUCKET);
+    }
+
+    private void initFlurry() {
 		// configure Flurry
 		FlurryAgent.setLogEnabled(false);
 
@@ -109,6 +126,7 @@ public class AppController extends Application implements
 		ParseUser.enableAutomaticUser();
 		ParseACL defaultACL = new ParseACL();
 		defaultACL.setPublicReadAccess(true);
+
 
 		ParseACL.setDefaultACL(defaultACL, true);
 
