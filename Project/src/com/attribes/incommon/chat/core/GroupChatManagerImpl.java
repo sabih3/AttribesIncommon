@@ -99,7 +99,6 @@ public class GroupChatManagerImpl extends QBMessageListenerImpl<QBGroupChat> imp
                     @Override
                     public void run() {
                         callback.onSuccess();
-                        //Toast.makeText(groupChatActivity, "Join successful", Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -360,10 +359,9 @@ public class GroupChatManagerImpl extends QBMessageListenerImpl<QBGroupChat> imp
 
         JSONObject json = new JSONObject();
         try {
-            json.put("message", "You have been invited to " + dialogName);
+            json.put("message", "You have been added to " + dialogName+" group");
             json.put("ios_sound", "default");
             json.put("dialogId", dialogId);
-            json.put("sabih","sabih");
         } catch (Exception e) {
             e.printStackTrace();
         }

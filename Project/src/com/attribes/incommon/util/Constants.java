@@ -8,6 +8,13 @@ public class Constants {
     public static final String EXTRA_QBDIALOG_USERNAMES = "qbDialogUsers";
     public static final String EXTRA_GROUP_OPPONENT_IDS = "groupChatOpponentIds";
     public static final String QBSESSION = "QBSessionFlag";
+    public static final String APP_ID = "17894";
+    public static final String AUTH_KEY = "sKqLNKmu8KnfHLO";
+    public static final String AUTH_SECRET = "rcOgH57by6RA6QO";
+    public static final String API_END_POINT = "apiincommon.quickblox.com";
+    public static final String CHAT_END_POINT = "chatincommon.quickblox.com";
+    public static final String TURN_SERVER = "turnserver.quickblox.com";
+    public static final String BUCKET = "qb-incommon-s3";
     public static String FLURRY_KEY = "BF3RF9TVFSN3YN643CHR";
 	public static String IS_EDIT = "edit_mode";
 	public static final String PROJECT_NUMBER = "136458693581";

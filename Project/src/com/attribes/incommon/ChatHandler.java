@@ -5,12 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.content.Intent;
-import android.provider.Settings;
-import android.view.WindowManager;
-import android.widget.Toast;
 import com.attribes.incommon.util.GroupChatList;
-import com.attribes.incommon.util.UserDevicePreferences;
 import org.jivesoftware.smack.SmackException.NotConnectedException;
 import org.jivesoftware.smack.SmackException.NotLoggedInException;
 import org.jivesoftware.smack.XMPPException;
@@ -42,18 +37,10 @@ import com.quickblox.users.model.QBUser;
 
 public class ChatHandler {
 
-	
 
-	private static final String APP_ID = "17894";
-	private static final String AUTH_KEY = "sKqLNKmu8KnfHLO";
-	private static final String AUTH_SECRET = "rcOgH57by6RA6QO";
-	private static final String LOGGEDIN = "You have already logged in chat";
-    private static final String API_END_POINT = "apiincommon.quickblox.com";
-    private static final String CHAT_END_POINT = "chatincommon.quickblox.com";
-    private static final String TURN_SERVER = "turnserver.quickblox.com";
-    private static final String BUCKET = "qb-incommon-s3";
+    private static final String LOGGEDIN = "You have already logged in chat";
 
-	private static String QbUserLogin;
+    private static String QbUserLogin;
 	private static String QbUserPassword;
 	private static QBUser currentUser ;
 	private static ChatHandler chatManager;
@@ -86,14 +73,14 @@ public class ChatHandler {
 		
 	}
 
-    public QBChatService initializeChat(){
-        QBChatService qbChatService = null;
+    public void initializeChat(){
+
         if(!QBChatService.isInitialized()){
 
             QBChatService.init(appContext);
-            qbChatService = QBChatService.getInstance();
+
         }
-        return qbChatService;
+
     }
 	
 	public void createSessionForNewUser(){
@@ -125,15 +112,15 @@ public class ChatHandler {
 	}
 	
 	public static void QBInit(){
-        QBSettings.getInstance().setServerApiDomain(API_END_POINT);
+        QBSettings.getInstance().setServerApiDomain(Constants.API_END_POINT);
 
-        QBSettings.getInstance().setChatServerDomain(CHAT_END_POINT);
+        QBSettings.getInstance().setChatServerDomain(Constants.CHAT_END_POINT);
 
-        QBSettings.getInstance().setTurnServerDomain(TURN_SERVER);
+        QBSettings.getInstance().setTurnServerDomain(Constants.TURN_SERVER);
 
-        QBSettings.getInstance().setContentBucketName(BUCKET);
+        QBSettings.getInstance().setContentBucketName(Constants.BUCKET);
 
-		QBSettings.getInstance().fastConfigInit(APP_ID, AUTH_KEY, AUTH_SECRET);
+		QBSettings.getInstance().fastConfigInit(Constants.APP_ID, Constants.AUTH_KEY, Constants.AUTH_SECRET);
 		
 		QBAuth.createSession(new QBEntityCallbackImpl<QBSession>() {
  
@@ -171,7 +158,7 @@ public class ChatHandler {
 //		final String qbUserLogin, final String qbUserPassword, final Context context
 //		final BaseActivity baseActivity = new BaseActivity();
 //		baseActivity.context = context;
-		QBSettings.getInstance().fastConfigInit(APP_ID, AUTH_KEY, AUTH_SECRET);
+		QBSettings.getInstance().fastConfigInit(Constants.APP_ID, Constants.AUTH_KEY, Constants.AUTH_SECRET);
 		
 		QBAuth.createSession(new QBEntityCallbackImpl<QBSession>() {
             @Override
@@ -189,7 +176,7 @@ public class ChatHandler {
     }
 	
 	public static void createSession(final QBUser user, final Context context ){
-		QBSettings.getInstance().fastConfigInit(APP_ID, AUTH_KEY, AUTH_SECRET);
+		QBSettings.getInstance().fastConfigInit(Constants.APP_ID, Constants.AUTH_KEY, Constants.AUTH_SECRET);
 		
 		
 			QBAuth.createSession(user, new QBEntityCallbackImpl<QBSession>() {

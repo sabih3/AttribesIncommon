@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.attribes.incommon.groups.GroupChatScreen;
 import com.attribes.incommon.groups.GroupMainScreen;
 import com.attribes.incommon.groups.OnDialogTypeReceivedListener;
+import com.attribes.incommon.models.MasterUser;
 import com.attribes.incommon.util.Constants;
 import com.attribes.incommon.util.Flurry;
 import com.attribes.incommon.util.GroupChatList;
@@ -29,12 +30,14 @@ import com.quickblox.core.QBEntityCallbackImpl;
 import com.quickblox.core.QBSettings;
 import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.core.request.QBRequestGetBuilder;
+import com.quickblox.users.QBUsers;
+import com.quickblox.users.model.QBUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class GcmIntentService extends IntentService implements OnDialogTypeReceivedListener {
+public class GcmIntentService extends IntentService implements OnDialogTypeReceivedListener, QBSessionListener {
 
 	 public static final int NOTIFICATION_ID = 1;
      public static final int NOTIFICATION_ID_GROUP_CREATION=2;
@@ -45,7 +48,11 @@ public class GcmIntentService extends IntentService implements OnDialogTypeRecei
 	 private String parsePushData;
 	 private String qbPushData;
      private Handler mHandler;
-    private QBChatService chatService;
+     private QBChatService chatService;
+     private String dialog_id;
+     private String opponentQbId;
+     private String message;
+     private String name;
 
 
     public GcmIntentService() {
@@ -90,27 +97,30 @@ public class GcmIntentService extends IntentService implements OnDialogTypeRecei
             }
             else{
                 qbPushData = extras.getString("message");
-                String dialog_id = (String) extras.get("dialog_id");
+                dialog_id = (String) extras.get("dialog_id");
                 if(qbPushData != null && qbPushData.contains(":")){
                     String[] pushDataArray = qbPushData.split(":");
-                    String name = pushDataArray[0];
+                    name = pushDataArray[0];
 
-                    String message = pushDataArray[1];
-                    String  opponentQbId = (String) extras.get("user_id");
+                    message = pushDataArray[1];
+                    opponentQbId = (String) extras.get("user_id");
                     //processQbNotification(opponentQbId, message, name, false);
-
-                    Toast.makeText(GcmIntentService.this,dialog_id,Toast.LENGTH_SHORT).show();
 
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
 
-                            getDialogType(dialog_id, opponentQbId, message, name);
+
+                            if(GroupChatList.getInstance().getQBSessionFlag()){
+                                getDialogType(dialog_id, opponentQbId, message, name);
+                            }
+
+                            else{
+                                QBInit();
+                            }
+
                         }
                     });
-
-
-
 
                 }
             }
@@ -178,101 +188,32 @@ public class GcmIntentService extends IntentService implements OnDialogTypeRecei
     private void getDialogType(String dialogId, String opponentQbId, String message, String name) {
         QBRequestGetBuilder requestBuilder = new QBRequestGetBuilder();
         requestBuilder.in("_id", dialogId);
-       // requestBuilder.setPagesLimit(100);
-
-
 
         if(!QBChatService.isInitialized()){
 
             ChatHandler.getInstance().initializeChat();
         }
-       try {
 
-           QBChatService.getInstance().getChatDialogs(null, requestBuilder, new QBEntityCallbackImpl<ArrayList<QBDialog>>() {
 
-               @Override
-               public void onSuccess(ArrayList<QBDialog> dialogs, Bundle args) {
+       QBChatService.getInstance().getChatDialogs(null, requestBuilder, new QBEntityCallbackImpl<ArrayList<QBDialog>>() {
 
-                   if (dialogs.get(0).getType().equals(QBDialogType.GROUP)) {
-                       processQbNotification(opponentQbId, message, name, true, dialogs.get(0));
-                   }
+           @Override
+           public void onSuccess(ArrayList<QBDialog> dialogs, Bundle args) {
 
-                   if (dialogs.get(0).getType().equals(QBDialogType.PRIVATE)) {
-                       processQbNotification(opponentQbId, message, name, false, null);
-                   }
+               if (dialogs.get(0).getType().equals(QBDialogType.GROUP)) {
+                   processQbNotification(opponentQbId, message, name, true, dialogs.get(0));
                }
 
-               @Override
-               public void onError(List<String> errors) {
-
+               if (dialogs.get(0).getType().equals(QBDialogType.PRIVATE)) {
+                   processQbNotification(opponentQbId, message, name, false, null);
                }
-           });
+           }
 
-       }catch (Exception e){
-            Toast.makeText(this,e.toString(),Toast.LENGTH_SHORT).show();
+           @Override
+           public void onError(List<String> errors) {
 
-       }
-
-
-//        if(GroupChatList.getInstance().getQBSessionFlag()){
-//            if(!QBChatService.isInitialized()){
-//
-//                ChatHandler.getInstance().initializeChat();
-//            }
-//
-//            QBChatService.getInstance().getChatDialogs(null, requestBuilder, new QBEntityCallbackImpl<ArrayList<QBDialog>>() {
-//
-//                @Override
-//                public void onSuccess(ArrayList<QBDialog> dialogs, Bundle args) {
-//
-//                    if (dialogs.get(0).getType().equals(QBDialogType.GROUP)) {
-//                        processQbNotification(opponentQbId, message, name, true,dialogs.get(0));
-//                    }
-//
-//                    if (dialogs.get(0).getType().equals(QBDialogType.PRIVATE)) {
-//                        processQbNotification(opponentQbId, message, name, false, null);
-//                    }
-//                }
-//
-//                @Override
-//                public void onError(List<String> errors) {
-//
-//                }
-//            });
-//        }
-//
-//        else{
-//
-//            ChatHandler.getInstance().QBInit();
-//
-//            if(!QBChatService.isInitialized()){
-//
-//                ChatHandler.getInstance().initializeChat();
-//            }
-//
-//            QBChatService.getInstance().getChatDialogs(null, requestBuilder, new QBEntityCallbackImpl<ArrayList<QBDialog>>() {
-//
-//                @Override
-//                public void onSuccess(ArrayList<QBDialog> dialogs, Bundle args) {
-//
-//                    if (dialogs.get(0).getType().equals(QBDialogType.GROUP)) {
-//                        processQbNotification(opponentQbId, message, name, true, dialogs.get(0));
-//                    }
-//
-//                    if (dialogs.get(0).getType().equals(QBDialogType.PRIVATE)) {
-//                        processQbNotification(opponentQbId, message, name, false, null);
-//                    }
-//                }
-//
-//                @Override
-//                public void onError(List<String> errors) {
-//
-//                }
-//            });
-//
-//        }
-
-
+           }
+       });
 
     }
 
@@ -301,7 +242,7 @@ public class GcmIntentService extends IntentService implements OnDialogTypeRecei
 
         notificationBuilder.setContentIntent(pendingIntent);
 
-        mNotificationManager.notify(NOTIFICATION_ID_GROUP_CREATION,notificationBuilder.build());
+        mNotificationManager.notify(NOTIFICATION_ID_GROUP_CREATION, notificationBuilder.build());
     }
 
 
@@ -321,13 +262,14 @@ public class GcmIntentService extends IntentService implements OnDialogTypeRecei
             intent.putExtra("opponentName", opponentName);
         }
 
-		
+
 		mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
-		
+
+
 		PendingIntent chatScreenIntent = PendingIntent.getActivity(this, 0,
             intent, PendingIntent.FLAG_UPDATE_CURRENT);
-		 
+
 		NotificationCompat.Builder mBuilder =
 		            new NotificationCompat.Builder(this)
 		    .setSmallIcon(R.drawable.launcher_incommon)
@@ -335,13 +277,13 @@ public class GcmIntentService extends IntentService implements OnDialogTypeRecei
 		    .setContentText(message)
 		    .setTicker(message)
 		    .setStyle(new NotificationCompat.BigTextStyle()
-		    .bigText("You have got a new message"))
+                    .bigText("You have got a new message"))
 		    .setSound(defaultNotificationSound)
             .setPriority(Notification.PRIORITY_LOW)
 		    .setAutoCancel(true);
-		
+
 		mBuilder.setContentIntent(chatScreenIntent);
-		
+
 	    mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
 	}
 
@@ -362,10 +304,10 @@ public class GcmIntentService extends IntentService implements OnDialogTypeRecei
 	    .setSmallIcon(R.drawable.launcher_incommon)
 	    .setContentTitle(getResources().getString(R.string.app_name))
 	    .setStyle(new NotificationCompat.BigTextStyle()
-	    .bigText("You have got "+push.matches.toString()+ "new matches"))
+                .bigText("You have got " + push.matches.toString() + "new matches"))
 	    .setSound(defaultNotificationSound)
 	    .setAutoCancel(true)
-	    .setContentText("You have got "+push.matches.toString()+ "new matches");
+	    .setContentText("You have got " + push.matches.toString() + "new matches");
 	
 	    mBuilder.setContentIntent(contentIntent);
 	    mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
@@ -443,7 +385,7 @@ public class GcmIntentService extends IntentService implements OnDialogTypeRecei
         .setSmallIcon(R.drawable.launcher_incommon)
         .setContentTitle(getResources().getString(R.string.app_name))
         .setStyle(new NotificationCompat.BigTextStyle()
-        .bigText(string+pushObject.getMatches()+" interests matched"))
+                .bigText(string + pushObject.getMatches() + " interests matched"))
         .setSound(defaultNotificationSound)
         .setAutoCancel(true)
         .setContentText(string);
@@ -453,8 +395,67 @@ public class GcmIntentService extends IntentService implements OnDialogTypeRecei
 		
 	}
 
+    private void QBInit(){
+        QBSettings.getInstance().setServerApiDomain(Constants.API_END_POINT);
+
+        QBSettings.getInstance().setChatServerDomain(Constants.CHAT_END_POINT);
+
+        QBSettings.getInstance().setTurnServerDomain(Constants.TURN_SERVER);
+
+        QBSettings.getInstance().setContentBucketName(Constants.BUCKET);
+
+        QBSettings.getInstance().fastConfigInit(Constants.APP_ID, Constants.AUTH_KEY, Constants.AUTH_SECRET);
+
+        QBAuth.createSession(new QBEntityCallbackImpl<QBSession>() {
+
+            @Override
+            public void onSuccess(QBSession session, Bundle params) {
+                QBUser user=new QBUser();
+
+                user.setId(Integer.parseInt(UserDevicePreferences.getInstance().getQbUserId()));
+                user.setLogin(UserDevicePreferences.getInstance().getSmToken());
+                user.setPassword(UserDevicePreferences.getInstance().getSmToken());
+                signInToQb(user);
+                GroupChatList.getInstance().setQBSessionFlag(true);
+
+
+            }
+
+            @Override
+            public void onError(List<String> errors) {
+
+
+            }
+        });
+    }
+
+    public void signInToQb(final QBUser loginUser) {
+
+        QBUsers.signIn(loginUser, new QBEntityCallbackImpl<QBUser>() {
+            @Override
+            public void onSuccess(QBUser user, Bundle args) {
+
+                getDialogType(dialog_id, opponentQbId, message, name);
+
+            }
+
+
+            @Override
+            public void onError(List<String> errors) {
+
+
+
+
+            }
+        });
+    }
     @Override
     public void OnDialogTypeReceived() {
+
+    }
+
+    @Override
+    public void sessionCreated() {
 
     }
 

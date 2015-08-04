@@ -20,11 +20,18 @@ import com.attribes.incommon.DrawerScreen;
 import com.attribes.incommon.R;
 import com.attribes.incommon.adapters.MessageAdapter;
 import com.attribes.incommon.util.Constants;
+import com.attribes.incommon.util.GroupChatList;
+import com.attribes.incommon.util.UserDevicePreferences;
+import com.quickblox.auth.QBAuth;
+import com.quickblox.auth.model.QBSession;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.model.QBDialog;
 import com.quickblox.chat.model.QBDialogType;
 import com.quickblox.core.QBEntityCallbackImpl;
+import com.quickblox.core.QBSettings;
 import com.quickblox.core.request.QBRequestGetBuilder;
+import com.quickblox.users.QBUsers;
+import com.quickblox.users.model.QBUser;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -67,7 +74,15 @@ public class GroupMainScreen extends DrawerScreen implements ListView.OnItemClic
 
         GroupChatScreen groupChat=new GroupChatScreen();
         groupChat.setOnGroupDialogDeleted(this);
-        getDialogs();
+
+        if(GroupChatList.getInstance().getQBSessionFlag()){// just a check to see whether QB session is available or not
+            getDialogs();
+        }
+
+        else{
+            QBInit();
+        }
+
 	}
 	
 	@Override
@@ -173,5 +188,59 @@ public class GroupMainScreen extends DrawerScreen implements ListView.OnItemClic
     protected void onRestart() {
         super.onRestart();
         initContents();
+    }
+
+
+    private void QBInit(){
+        QBSettings.getInstance().setServerApiDomain(Constants.API_END_POINT);
+
+        QBSettings.getInstance().setChatServerDomain(Constants.CHAT_END_POINT);
+
+        QBSettings.getInstance().setTurnServerDomain(Constants.TURN_SERVER);
+
+        QBSettings.getInstance().setContentBucketName(Constants.BUCKET);
+
+        QBSettings.getInstance().fastConfigInit(Constants.APP_ID, Constants.AUTH_KEY, Constants.AUTH_SECRET);
+
+        QBAuth.createSession(new QBEntityCallbackImpl<QBSession>() {
+
+            @Override
+            public void onSuccess(QBSession session, Bundle params) {
+                QBUser user = new QBUser();
+
+                user.setId(Integer.parseInt(UserDevicePreferences.getInstance().getQbUserId()));
+                user.setLogin(UserDevicePreferences.getInstance().getSmToken());
+                user.setPassword(UserDevicePreferences.getInstance().getSmToken());
+                signInToQb(user);
+                GroupChatList.getInstance().setQBSessionFlag(true);
+
+
+            }
+
+            @Override
+            public void onError(List<String> errors) {
+
+
+            }
+        });
+    }
+
+    public void signInToQb(final QBUser loginUser) {
+
+        QBUsers.signIn(loginUser, new QBEntityCallbackImpl<QBUser>() {
+            @Override
+            public void onSuccess(QBUser user, Bundle args) {
+
+                getDialogs();
+
+            }
+
+
+            @Override
+            public void onError(List<String> errors) {
+
+
+            }
+        });
     }
 }

@@ -76,7 +76,7 @@ public class AppController extends Application implements
 
 	@Override
 	public void onCreate() {
-		ACRA.init(this);
+		//ACRA.init(this);
 		super.onCreate();
 
 		AppController.context = getApplicationContext();

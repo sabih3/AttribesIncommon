@@ -110,6 +110,15 @@ public class MessageAdapter extends BaseAdapter{
 		}
         if(mDialogs.get(position).getType()== QBDialogType.GROUP){
             Picasso.with(mContext).load(R.drawable.groups_placeholder).into(viewHolder.userImage);
+
+            if(mDialogs.get(position).getUnreadMessageCount() != 0){
+                viewHolder.userNameView.setTextColor(mContext.getResources().getColor(R.color.orange));
+            }
+
+            else{
+                viewHolder.userNameView.setTextColor(mContext.getResources().getColor(R.color.black_font));
+            }
+
             viewHolder.userNameView.setText(mDialogs.get(position).getName());
         }
 		

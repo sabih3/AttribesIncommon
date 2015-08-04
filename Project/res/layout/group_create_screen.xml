@@ -22,7 +22,9 @@
             android:background="@android:color/transparent"
             custom:fontName="Mark Simonson - Proxima Nova Regular.ttf"
             android:textSize="22sp"
+            android:maxLines="1"
             />
+
     <EditText
         android:id="@+id/createGroup_groupName"
         android:layout_width="match_parent"
@@ -36,6 +38,7 @@
         android:background="@android:color/transparent"
         android:visibility="gone"
         android:textSize="22sp"
+        android:maxLines="1"
             >
     </EditText>
 

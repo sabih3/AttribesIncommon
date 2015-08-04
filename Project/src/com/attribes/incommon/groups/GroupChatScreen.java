@@ -440,10 +440,9 @@ public class GroupChatScreen extends ActionBarActivity implements QBChatLoginLis
 
         JSONObject json = new JSONObject();
         try {
-            json.put("message", "You have been invited to " + dialogName);
+            json.put("message", "You have been added to " + dialogName+ " group");
             json.put("ios_sound", "default");
             json.put("dialogId", dialogId);
-            json.put("sabih","sabih");
         } catch (Exception e) {
             e.printStackTrace();
         }
